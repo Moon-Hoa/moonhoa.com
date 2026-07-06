@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { navLinks } from "@/lib/content";
 
 export default function SiteNav() {
@@ -6,7 +7,7 @@ export default function SiteNav() {
       <ul>
         {navLinks.map((link) => (
           <li key={link.href}>
-            <a href={link.href}>{link.label}</a>
+            <Link href={link.href}>{link.label}</Link>
           </li>
         ))}
       </ul>

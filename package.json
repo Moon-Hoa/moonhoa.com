@@ -7,13 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:lots": "tsx scripts/seed-lots.ts"
+    "seed:lots": "tsx scripts/seed-lots.ts",
+    "test": "tsx --test src/**/*.test.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.110.0",
+    "bad-words": "^4.0.0",
     "next": "16.2.10",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

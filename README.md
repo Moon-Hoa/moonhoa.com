@@ -18,14 +18,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Environment variables
 
-Not needed yet for the current static homepage. Once registration/auth
-land (Phase 1), create a `.env.local` with:
+Copy `.env.example` to `.env.local` and fill in once a Supabase project and
+Cloudflare Turnstile site exist. Without them:
 
-```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=   # server-only: registration, claim endpoint, admin, seed script — never expose to the client
-```
+- `/register` still renders and the lot picker works, backed by a local
+  fallback dataset generated from `src/lib/lots.ts` (clearly labeled "demo
+  mode" in the UI) instead of a live registry
+- Turnstile falls back to Cloudflare's public "always passes" test keys
+- `POST /api/register` returns a 503 rather than silently failing
 
 ## Database
 
@@ -37,7 +37,7 @@ or paste the SQL into the project's SQL editor.
 
 ```bash
 npm run seed:lots -- --dry-run   # writes scripts/out/lots.csv, no DB needed
-npm run seed:lots                # requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
+npm run seed:lots                # requires NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
 ```
 
 Grid bounds (how many lots exist, i.e. how scarce they are) are set in
@@ -49,12 +49,31 @@ Not yet connected to Vercel. `moonhoa.com` currently still points at the
 old GitHub Pages static site (see `CNAME`); cutting it over to this app
 is a Phase 5 task.
 
+## Registration flow (Phase 1)
+
+`/register` -> `POST /api/register` (validates name/email, runs the
+profanity filter, verifies Turnstile, sends a Supabase magic-link email with
+the chosen lot ID + display name attached as user metadata) -> user clicks
+the email link -> `GET /auth/callback` exchanges the code for a session,
+upserts the `members` row, then runs the race-safe claim
+(`UPDATE lots ... WHERE owner_id IS NULL`) -> redirects to `/register/success`.
+
+The member row and the lot claim only happen after email verification, not
+at initial form submission — this is also where "verifies a real email"
+from the architecture doc is actually enforced.
+
 ## Project structure
 
 - `src/app/` — routes (App Router)
+- `src/app/register/`, `src/app/api/register/`, `src/app/auth/callback/` — registration + magic-link + claim flow
+- `src/app/api/lots/available/` — paginated/searchable unclaimed-lots list for the picker
 - `src/components/` — shared design-system components ported from the
   original static site (starfield, seal, decree grid, amenity cards, etc.)
+  plus the registration form, lot picker, and Turnstile widget
 - `src/lib/content.ts` — static site copy (regulations, amenities, events, notices)
 - `src/lib/lots.ts` — lot grid math (cell <-> lot code encoding)
+- `src/lib/profanity.ts` — display name filter
+- `src/lib/turnstile.ts` — Turnstile site key + server-side verification
+- `src/lib/supabase/` — server/admin Supabase client helpers
 - `supabase/migrations/` — SQL schema
 - `scripts/seed-lots.ts` — lot grid seed script

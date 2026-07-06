@@ -1,13 +1,17 @@
 // One-time seed: pre-generate the full lot grid into `lots`.
 //
-// Without SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY set (or with --dry-run
-// passed explicitly), this writes a CSV to scripts/out/ instead of touching a
-// database, so the generation logic can be exercised before a real Supabase
-// project exists.
+// Without NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY set (or with
+// --dry-run passed explicitly), this writes a CSV to scripts/out/ instead of
+// touching a database, so the generation logic can be exercised before a
+// real Supabase project exists.
+//
+// This is a standalone script, not run through Next.js, so .env.local isn't
+// loaded automatically — export the vars first, or run with
+// `node --env-file=.env.local` wrapping tsx (Node 20.6+).
 //
 // Usage:
 //   npm run seed:lots -- --dry-run
-//   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run seed:lots
+//   NEXT_PUBLIC_SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run seed:lots
 import { createClient } from "@supabase/supabase-js";
 import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
@@ -16,7 +20,7 @@ import { generateGridCells, gridSize, lotIdForCell, LOT_GRID } from "../src/lib/
 const BATCH_SIZE = 1000;
 const dryRun = process.argv.includes("--dry-run");
 
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 async function main() {
@@ -28,7 +32,7 @@ async function main() {
   if (dryRun || !supabaseUrl || !serviceRoleKey) {
     if (!dryRun) {
       console.log(
-        "SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set — falling back to --dry-run (CSV output only)."
+        "NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set — falling back to --dry-run (CSV output only)."
       );
     }
     await writeCsv(total);
