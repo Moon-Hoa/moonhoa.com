@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Ornament from "./Ornament";
 
 export default function SiteFooter() {
@@ -18,11 +19,11 @@ export default function SiteFooter() {
         transferred, or escaped.
       </p>
       <div className="footer-links">
-        <a href="#regulations">Bylaws</a>
-        <a href="#amenities">Amenities</a>
-        <a href="#calendar">Calendar</a>
-        <a href="#notices">Notices</a>
-        <a href="#contact">Contact</a>
+        <Link href="/#regulations">Bylaws</Link>
+        <Link href="/#amenities">Amenities</Link>
+        <Link href="/#calendar">Calendar</Link>
+        <Link href="/#notices">Notices</Link>
+        <Link href="/#contact">Contact</Link>
         <a href="#">Privacy Policy (9 Pages)</a>
         <a href="#">Definitions Annex</a>
       </div>

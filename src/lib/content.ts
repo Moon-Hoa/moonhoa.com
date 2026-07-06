@@ -175,12 +175,15 @@ export const stats = [
   { value: "∞", label: "Strongly Worded Letters Sent" },
 ];
 
+// Home-relative (`/#...`) rather than bare hashes since these render on
+// non-homepage routes too (e.g. /register) via the shared SiteNav.
 export const navLinks = [
-  { href: "#welcome", label: "Welcome" },
-  { href: "#regulations", label: "Regulations" },
-  { href: "#amenities", label: "Amenities" },
-  { href: "#calendar", label: "Calendar" },
-  { href: "#notices", label: "Notices" },
-  { href: "#contact", label: "Contact" },
-  { href: "#charter", label: "Charter" },
+  { href: "/register", label: "Register" },
+  { href: "/#welcome", label: "Welcome" },
+  { href: "/#regulations", label: "Regulations" },
+  { href: "/#amenities", label: "Amenities" },
+  { href: "/#calendar", label: "Calendar" },
+  { href: "/#notices", label: "Notices" },
+  { href: "/#contact", label: "Contact" },
+  { href: "/#charter", label: "Charter" },
 ];
