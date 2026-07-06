@@ -1,18 +1,18 @@
 import FadeIn from "./FadeIn";
-import { decrees } from "@/lib/content";
+import { decrees as regulationDecrees, type Decree } from "@/lib/content";
 
-export default function DecreeGrid() {
+export default function DecreeGrid({ items = regulationDecrees }: { items?: Decree[] }) {
   return (
     <FadeIn className="decree-grid">
-      {decrees.map((decree) => (
+      {items.map((decree) => (
         <div className="decree" key={decree.number}>
           <div className="decree-number">{decree.number}</div>
           <div className="decree-body">
             <div className="decree-title">{decree.title}</div>
             <p className="decree-text">{decree.text}</p>
-            <span className={`decree-severity ${decree.severity}`}>
-              {decree.severityLabel}
-            </span>
+            {decree.severity && decree.severityLabel && (
+              <span className={`decree-severity ${decree.severity}`}>{decree.severityLabel}</span>
+            )}
           </div>
         </div>
       ))}
