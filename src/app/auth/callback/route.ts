@@ -2,22 +2,36 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
-// Where magic links (registration, and later transfer confirmation) land.
-// Exchanges the code for a session, then — for a fresh registration —
-// creates the member row and runs the race-safe lot claim.
+// Only allow relative, same-site redirects — `next` is attacker-controlled
+// query input reflected straight into a redirect.
+function safeNext(next: string | null): string | null {
+  if (!next) return null;
+  return next.startsWith("/") && !next.startsWith("//") ? next : null;
+}
+
+// Where every magic link lands (registration, and plain sign-in flows like
+// admin). With no `next` param, this runs the full registration completion:
+// creates the member row and runs the race-safe lot claim. With a `next`
+// param (e.g. `?next=/admin`), it's a plain sign-in — no member/lot side
+// effects, just redirect once the session is established.
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
+  const next = safeNext(searchParams.get("next"));
 
   if (!code) {
-    return NextResponse.redirect(`${origin}/register?error=missing_code`);
+    return NextResponse.redirect(`${origin}${next ?? "/register"}?error=missing_code`);
   }
 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error || !data.user) {
-    return NextResponse.redirect(`${origin}/register?error=verification_failed`);
+    return NextResponse.redirect(`${origin}${next ?? "/register"}?error=verification_failed`);
+  }
+
+  if (next) {
+    return NextResponse.redirect(`${origin}${next}`);
   }
 
   const { user } = data;
