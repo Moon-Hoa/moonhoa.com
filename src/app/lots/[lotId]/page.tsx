@@ -7,6 +7,7 @@ import SiteFooter from "@/components/SiteFooter";
 import SectionLabel from "@/components/SectionLabel";
 import Ornament from "@/components/Ornament";
 import ReportButton from "@/components/ReportButton";
+import TransferForm from "@/components/TransferForm";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 import { cellsForLotId, cellToDeg } from "@/lib/lots";
@@ -108,14 +109,23 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
         </div>
       </div>
 
+      {transferCount > 0 && (
+        <ul style={{ marginTop: 12, marginBottom: 0, paddingLeft: 20, color: "var(--text-dim)", fontSize: ".85rem" }}>
+          {transfers!.slice(0, 5).map((transfer) => (
+            <li key={transfer.transferred_at}>{new Date(transfer.transferred_at).toLocaleDateString()}</li>
+          ))}
+        </ul>
+      )}
+
       {!ownerName && (
         <p style={{ marginTop: 24 }}>
           This lot is unclaimed. <Link href="/register">Register</Link> to make it yours.
         </p>
       )}
 
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
         <ReportButton lotId={lotId} />
+        {ownerName && <TransferForm lotId={lotId} />}
       </div>
     </LotLookupShell>
   );

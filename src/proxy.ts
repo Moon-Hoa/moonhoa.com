@@ -18,6 +18,10 @@ const LIMITS: RouteLimit[] = [
   { match: (p, m) => p === "/api/register" && m === "POST", windowMs: 5 * 60_000, max: 5 },
   { match: (p, m) => p === "/api/reports" && m === "POST", windowMs: 5 * 60_000, max: 10 },
   { match: (p, m) => p === "/api/admin/login" && m === "POST", windowMs: 5 * 60_000, max: 5 },
+  // Transfer initiate/confirm each send an email; accept just finalizes.
+  { match: (p, m) => p === "/api/transfer/initiate" && m === "POST", windowMs: 5 * 60_000, max: 5 },
+  { match: (p, m) => p === "/api/transfer/confirm" && m === "POST", windowMs: 5 * 60_000, max: 5 },
+  { match: (p, m) => p === "/api/transfer/accept" && m === "POST", windowMs: 5 * 60_000, max: 10 },
   {
     match: (p, m) => (p === "/api/lots/available" || p === "/api/registry") && m === "GET",
     windowMs: 60_000,
@@ -72,5 +76,14 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/register", "/api/reports", "/api/admin/login", "/api/lots/available", "/api/registry"],
+  matcher: [
+    "/api/register",
+    "/api/reports",
+    "/api/admin/login",
+    "/api/lots/available",
+    "/api/registry",
+    "/api/transfer/initiate",
+    "/api/transfer/confirm",
+    "/api/transfer/accept",
+  ],
 };

@@ -101,6 +101,35 @@ from the architecture doc is actually enforced.
   substitute for real edge/CDN-level protection (Vercel Firewall rules or
   an Upstash-backed limiter) once this is actually deployed.
 
+## Resale / ownership transfer (Phase 4)
+
+Three-hop magic-link handshake — deliberately more cautious than the plan's
+literal "current owner enters recipient's email, recipient confirms"
+one-hop wording, because without a persistent login system, anything less
+would let a visitor transfer away a lot just by guessing its owner's email:
+
+1. `/lots/[lotId]` (claimed lots only) -> "Transfer this lot" -> visitor
+   enters a recipient email -> `POST /api/transfer/initiate` looks up the
+   *actual* current owner's email server-side (never trusts anything typed
+   as "I am the owner") and sends **them** a magic link. Rejects unclaimed
+   lots, transfers to the current owner's own email, and transfers to a
+   banned member.
+2. Owner clicks the link -> lands authenticated on
+   `/lots/[lotId]/transfer/confirm`, which re-verifies they still own the
+   lot, then a "Confirm Transfer" button -> `POST /api/transfer/confirm`
+   sends the *recipient* a magic link (email re-read from the owner's
+   verified session metadata, not the request body).
+3. Recipient clicks their link -> lands authenticated on
+   `/lots/[lotId]/transfer/accept` — picks a display name if they're a new
+   member, otherwise just accepts -> `POST /api/transfer/accept` does the
+   race-safe reassignment (`UPDATE lots ... WHERE lot_id = ? AND owner_id =
+   ?`, guarding against the lot changing hands again mid-handshake) and logs
+   to `ownership_transfers`.
+
+No new tables: transfer state rides along as Supabase auth user metadata
+tied to each magic-link token, so it naturally expires with the link
+instead of needing a `pending_transfers` table to clean up.
+
 ## Project structure
 
 - `src/app/` — routes (App Router)
@@ -110,10 +139,12 @@ from the architecture doc is actually enforced.
 - `src/app/registry/`, `src/app/api/registry/`, `src/app/lots/[lotId]/` — public registry + lot lookup
 - `src/app/covenants/`, `src/app/arc/`, `src/app/dues/`, `src/app/board/`, `src/app/minutes/` — new static content pages
 - `src/app/admin/`, `src/app/api/admin/login/`, `src/app/api/reports/` — moderation + admin dashboard
+- `src/app/lots/[lotId]/transfer/`, `src/app/api/transfer/` — resale/ownership-transfer handshake
 - `src/components/` — shared design-system components ported from the
   original static site (starfield, seal, decree grid, amenity cards, etc.)
   plus the registration form, lot picker, Turnstile widget, registry table,
-  dues table, board grid, admin login form, and report button
+  dues table, board grid, admin login form, report button, and the
+  transfer initiate/confirm/accept forms
 - `src/lib/content.ts` — homepage copy (regulations, amenities, events, notices)
 - `src/lib/staticPagesContent.ts` — copy for the Phase 2 static pages
 - `src/lib/lots.ts` — lot grid math (cell <-> lot code encoding)
