@@ -80,22 +80,46 @@ from the architecture doc is actually enforced.
   routes — they were already static/SSG-rendered as of Phase 0, so there
   was no technical gap to close there.
 
+## Moderation & admin (Phase 3)
+
+- `/admin` — members, claimed lots, and open reports, with one-click "nuke"
+  actions (ban a member + delist every lot they own, or delist a single lot
+  without touching its owner). Not linked from the public nav; reachable
+  only by URL, gated regardless by `getAdminUser()`.
+- Admin auth is a simple `ADMIN_EMAILS` allowlist (see `.env.example`), not a
+  DB role column — same magic-link mechanism as registration, but
+  `/auth/callback` now takes an optional `?next=` param so a plain sign-in
+  (no lot claim, no member creation) can redirect anywhere, not just
+  `/register/success`.
+- "Report this listing" button on `/lots/[lotId]` -> `POST /api/reports`,
+  logged to a `reports` table admins can dismiss or mark actioned from the
+  dashboard.
+- Rate limiting on `/api/register`, `/api/reports`, `/api/admin/login`,
+  `/api/lots/available`, and `/api/registry` via `src/proxy.ts` — an
+  in-memory sliding window, best-effort within a single instance. This is
+  the code-level mechanism the architecture doc calls for; it is **not** a
+  substitute for real edge/CDN-level protection (Vercel Firewall rules or
+  an Upstash-backed limiter) once this is actually deployed.
+
 ## Project structure
 
 - `src/app/` — routes (App Router)
+- `src/proxy.ts` — rate limiting (Next 16 renamed `middleware.ts` to `proxy.ts`)
 - `src/app/register/`, `src/app/api/register/`, `src/app/auth/callback/` — registration + magic-link + claim flow
 - `src/app/api/lots/available/` — paginated/searchable unclaimed-lots list for the picker
 - `src/app/registry/`, `src/app/api/registry/`, `src/app/lots/[lotId]/` — public registry + lot lookup
 - `src/app/covenants/`, `src/app/arc/`, `src/app/dues/`, `src/app/board/`, `src/app/minutes/` — new static content pages
+- `src/app/admin/`, `src/app/api/admin/login/`, `src/app/api/reports/` — moderation + admin dashboard
 - `src/components/` — shared design-system components ported from the
   original static site (starfield, seal, decree grid, amenity cards, etc.)
   plus the registration form, lot picker, Turnstile widget, registry table,
-  dues table, and board grid
+  dues table, board grid, admin login form, and report button
 - `src/lib/content.ts` — homepage copy (regulations, amenities, events, notices)
 - `src/lib/staticPagesContent.ts` — copy for the Phase 2 static pages
 - `src/lib/lots.ts` — lot grid math (cell <-> lot code encoding)
 - `src/lib/profanity.ts` — display name filter
 - `src/lib/turnstile.ts` — Turnstile site key + server-side verification
+- `src/lib/admin.ts` — admin email allowlist + session check
 - `src/lib/supabase/` — server/admin/public Supabase client helpers
 - `supabase/migrations/` — SQL schema
 - `scripts/seed-lots.ts` — lot grid seed script

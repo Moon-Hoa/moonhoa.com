@@ -6,6 +6,7 @@ import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import SectionLabel from "@/components/SectionLabel";
 import Ornament from "@/components/Ornament";
+import ReportButton from "@/components/ReportButton";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 import { cellsForLotId, cellToDeg } from "@/lib/lots";
@@ -112,6 +113,10 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
           This lot is unclaimed. <Link href="/register">Register</Link> to make it yours.
         </p>
       )}
+
+      <div style={{ marginTop: 24 }}>
+        <ReportButton lotId={lotId} />
+      </div>
     </LotLookupShell>
   );
 }
