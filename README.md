@@ -62,18 +62,40 @@ The member row and the lot claim only happen after email verification, not
 at initial form submission — this is also where "verifies a real email"
 from the architecture doc is actually enforced.
 
+## Public registry & static content (Phase 2)
+
+- `/registry` — searchable/paginated list of claimed lots and their owners,
+  reading from the `lot_registry` view (never exposes email). Without
+  Supabase configured, shows a clear "not connected" message rather than
+  fabricating members — unlike the lot picker's demo-mode fallback, there's
+  no honest way to fake real registrants.
+- `/lots/[lotId]` — per-lot detail (coordinates, owner, claim date, transfer
+  history). Lazily generated and cached per lot (ISR, revalidate 45s) rather
+  than pre-rendered for all ~350k possible lots.
+- New static pages: `/covenants` (CC&Rs), `/arc` (Architectural Review
+  process), `/dues` (dues schedule), `/board` (board members), `/minutes`
+  (meeting minutes) — all fully static.
+- The existing homepage sections (Regulations, Amenities, Calendar, Notices,
+  Contact) stay as one scrolling page rather than being split into separate
+  routes — they were already static/SSG-rendered as of Phase 0, so there
+  was no technical gap to close there.
+
 ## Project structure
 
 - `src/app/` — routes (App Router)
 - `src/app/register/`, `src/app/api/register/`, `src/app/auth/callback/` — registration + magic-link + claim flow
 - `src/app/api/lots/available/` — paginated/searchable unclaimed-lots list for the picker
+- `src/app/registry/`, `src/app/api/registry/`, `src/app/lots/[lotId]/` — public registry + lot lookup
+- `src/app/covenants/`, `src/app/arc/`, `src/app/dues/`, `src/app/board/`, `src/app/minutes/` — new static content pages
 - `src/components/` — shared design-system components ported from the
   original static site (starfield, seal, decree grid, amenity cards, etc.)
-  plus the registration form, lot picker, and Turnstile widget
-- `src/lib/content.ts` — static site copy (regulations, amenities, events, notices)
+  plus the registration form, lot picker, Turnstile widget, registry table,
+  dues table, and board grid
+- `src/lib/content.ts` — homepage copy (regulations, amenities, events, notices)
+- `src/lib/staticPagesContent.ts` — copy for the Phase 2 static pages
 - `src/lib/lots.ts` — lot grid math (cell <-> lot code encoding)
 - `src/lib/profanity.ts` — display name filter
 - `src/lib/turnstile.ts` — Turnstile site key + server-side verification
-- `src/lib/supabase/` — server/admin Supabase client helpers
+- `src/lib/supabase/` — server/admin/public Supabase client helpers
 - `supabase/migrations/` — SQL schema
 - `scripts/seed-lots.ts` — lot grid seed script

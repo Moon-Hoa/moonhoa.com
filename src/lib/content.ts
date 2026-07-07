@@ -2,8 +2,8 @@ export interface Decree {
   number: string;
   title: string;
   text: string;
-  severity: "high" | "med" | "low";
-  severityLabel: string;
+  severity?: "high" | "med" | "low";
+  severityLabel?: string;
 }
 
 export const decrees: Decree[] = [
@@ -179,10 +179,16 @@ export const stats = [
 // non-homepage routes too (e.g. /register) via the shared SiteNav.
 export const navLinks = [
   { href: "/register", label: "Register" },
+  { href: "/registry", label: "Registry" },
   { href: "/#welcome", label: "Welcome" },
   { href: "/#regulations", label: "Regulations" },
+  { href: "/covenants", label: "Covenants" },
+  { href: "/arc", label: "ARC" },
   { href: "/#amenities", label: "Amenities" },
+  { href: "/dues", label: "Dues" },
   { href: "/#calendar", label: "Calendar" },
+  { href: "/board", label: "Board" },
+  { href: "/minutes", label: "Minutes" },
   { href: "/#notices", label: "Notices" },
   { href: "/#contact", label: "Contact" },
   { href: "/#charter", label: "Charter" },
