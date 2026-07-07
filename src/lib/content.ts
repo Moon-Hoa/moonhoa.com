@@ -180,6 +180,7 @@ export const stats = [
 export const navLinks = [
   { href: "/register", label: "Register" },
   { href: "/registry", label: "Registry" },
+  { href: "/density", label: "Density Map" },
   { href: "/#welcome", label: "Welcome" },
   { href: "/#regulations", label: "Regulations" },
   { href: "/covenants", label: "Covenants" },
@@ -189,6 +190,7 @@ export const navLinks = [
   { href: "/#calendar", label: "Calendar" },
   { href: "/board", label: "Board" },
   { href: "/minutes", label: "Minutes" },
+  { href: "/annual-meeting", label: "Annual Meeting" },
   { href: "/#notices", label: "Notices" },
   { href: "/#contact", label: "Contact" },
   { href: "/#charter", label: "Charter" },

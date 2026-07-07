@@ -153,3 +153,70 @@ export const meetingMinutes: NoticeItem[] = [
     ],
   },
 ];
+
+export const annualMeetingAgenda: Decree[] = [
+  {
+    number: "Item 1",
+    title: "Call to Order",
+    text: "Quorum is determined by whoever showed up. Historically, this has never been fewer than three people and one very committed houseplant.",
+  },
+  {
+    number: "Item 2",
+    title: "Reading of Previous Minutes",
+    text: "See the Meeting Minutes page. The Board will read them aloud regardless of whether anyone has objections, corrections, or a pulse.",
+  },
+  {
+    number: "Item 3",
+    title: "Treasurer's Report",
+    text: "Delivered verbally, from memory, without notes, as is tradition. Written copies remain tabled indefinitely.",
+  },
+  {
+    number: "Item 4",
+    title: "Old Business: MONS RULE Investigation",
+    text: 'Compliance Officer Anand-Nakamura will provide an update. The Board anticipates this update will conclude with "we\'re close, we\'re very close."',
+  },
+  {
+    number: "Item 5",
+    title: "New Business: Pool Recovery Budget Amendment",
+    text: "Proposed reallocation of funds toward the ongoing Zero-Gravity Swimming Pool retrieval effort. See Notice No. 2069-051 for background.",
+  },
+  {
+    number: "Item 6",
+    title: "Board Elections",
+    text: "Uncontested, as always. Nominations from the floor are welcomed in spirit but not in practice.",
+  },
+  {
+    number: "Item 7",
+    title: "Open Floor for Resident Comments",
+    text: "Limited to 30 seconds per resident, strictly enforced by the Sergeant-at-Arms and his gavel, assuming it has not been confiscated.",
+  },
+  {
+    number: "Item 8",
+    title: "Adjournment",
+    text: "The meeting will be adjourned at the Board's discretion, regardless of whether Item 7 has concluded.",
+  },
+];
+
+export interface BallotResolution {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export const ballotResolutions: BallotResolution[] = [
+  {
+    id: "2089-r-01",
+    title: "Resolution 2089-R-01",
+    description: "Should the community pool be renamed if and when it is recovered?",
+  },
+  {
+    id: "2089-r-02",
+    title: "Resolution 2089-R-02",
+    description: "Should Earth-howling hours (§1.5) be extended to include weekdays?",
+  },
+  {
+    id: "2089-r-03",
+    title: "Resolution 2089-R-03",
+    description: "Should the Sergeant-at-Arms's gavel be replaced with a non-confiscatable model?",
+  },
+];
