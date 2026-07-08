@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:lots": "tsx scripts/seed-lots.ts",
+    "seed:lots": "node --env-file-if-exists=.env.local --import tsx scripts/seed-lots.ts",
     "test": "tsx --test src/**/*.test.ts",
-    "test:race": "tsx scripts/race-test.ts"
+    "test:race": "tsx scripts/race-test.ts",
+    "apply:migrations": "node --env-file-if-exists=.env.local --import tsx scripts/apply-migrations.ts",
+    "verify:infra": "node --env-file-if-exists=.env.local --import tsx scripts/verify-infra.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

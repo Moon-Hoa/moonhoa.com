@@ -29,9 +29,17 @@ Cloudflare Turnstile site exist. Without them:
 
 ## Database
 
-Schema lives in `supabase/migrations/`. Once a Supabase project exists,
-apply it with the Supabase CLI (`supabase link`, then `supabase db push`)
-or paste the SQL into the project's SQL editor.
+Schema lives in `supabase/migrations/`. Two ways to apply it:
+
+```bash
+npm run apply:migrations   # requires SUPABASE_DB_URL — direct connection, verifiable
+```
+
+or paste the SQL files into the Supabase dashboard's SQL Editor (Supabase
+"Connect" button -> "Direct" tab has the connection string). Prefer the
+script if possible — pasting into the dashboard has no way to confirm
+success from outside the browser, which cost real time working out that a
+paste had silently not applied at all.
 
 ### Seeding the lot grid
 
@@ -41,13 +49,29 @@ npm run seed:lots                # requires NEXT_PUBLIC_SUPABASE_URL + SUPABASE_
 ```
 
 Grid bounds (how many lots exist, i.e. how scarce they are) are set in
-`src/lib/lots.ts` — reconsider before the real seed run.
+`src/lib/lots.ts` — reconsider before the real seed run. The upsert is
+idempotent and retries transient network failures automatically, so it's
+safe to just re-run if it stops partway through.
+
+### Verifying infrastructure
+
+```bash
+npm run verify:infra   # checks Supabase schema/seed status, Turnstile keys, and (with VERCEL_TOKEN) Vercel config
+```
+
+Read-only, makes no changes. Checks real data-returning queries, not just
+table existence — a `head: true` HEAD request will report success even when
+PostgREST can't actually resolve the table (HEAD responses have no body to
+carry a PostgREST error in), which produced a false "everything's fine"
+reading once already.
 
 ## Deployment
 
-Not yet connected to Vercel. `moonhoa.com` currently still points at the
-old GitHub Pages static site (see `CNAME`); cutting it over to this app
-is a Phase 5 task.
+Connected to Vercel (project `moonhoa-com`, deploying from the `newsite`
+branch as production for now — not `main`, see `LAUNCH.md`). `moonhoa.com`
+itself still points at the old GitHub Pages static site until the deliberate
+cutover happens — see `LAUNCH.md` / the "Phase 6 — Launch & Cutover" epic
+for that sequencing.
 
 ## Registration flow (Phase 1)
 
