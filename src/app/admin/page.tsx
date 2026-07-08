@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Starfield from "@/components/Starfield";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
@@ -63,11 +64,16 @@ export default async function AdminPage() {
     <Shell>
       <div className="admin-header">
         <p style={{ marginBottom: 0 }}>Signed in as {user.email}</p>
-        <form action={signOutAdmin}>
-          <button type="submit" className="admin-signout">
-            Sign Out
-          </button>
-        </form>
+        <div style={{ display: "flex", gap: 12 }}>
+          <Link href="/admin/analytics" className="admin-signout">
+            Analytics
+          </Link>
+          <form action={signOutAdmin}>
+            <button type="submit" className="admin-signout">
+              Sign Out
+            </button>
+          </form>
+        </div>
       </div>
 
       <h3>Open Reports ({reports?.length ?? 0})</h3>

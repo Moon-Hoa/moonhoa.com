@@ -130,6 +130,37 @@ No new tables: transfer state rides along as Supabase auth user metadata
 tied to each magic-link token, so it naturally expires with the link
 instead of needing a `pending_transfers` table to clean up.
 
+## Polish & launch hardening (Phase 5)
+
+- **Race-condition load test** (`npm run test:race`) — spins up a throwaway
+  local Postgres in Docker, applies every migration, then fires 50
+  concurrent claim attempts at one lot and 50 concurrent transfer-accept
+  attempts at one pending transfer, asserting exactly one winner each time.
+  This tests the real `UPDATE ... WHERE owner_id IS NULL` /
+  `UPDATE ... WHERE owner_id = ?` SQL against genuine Postgres — not
+  Supabase itself, but the same engine and the exact statements those
+  endpoints run — so it's meaningful evidence without needing a live
+  Supabase project. Requires Docker running locally.
+- **Basic analytics** (`/admin/analytics`) — registrations over the last 14
+  days as a simple bar chart, plus "most reported" and "most transferred"
+  lots (two readings of "most contested" for an HOA satire site: one
+  moderation, one market). Backed by three admin-only views
+  (`registrations_by_day`, `most_reported_lots`, `most_transferred_lots`).
+- **Lot density map** (`/density`, public) — claim density by 5°×5°
+  selenographic region as a heatmap, from a public `lot_density_grid` view.
+  Built per the dataviz skill: single-hue sequential ramp (navy → gold,
+  validated for monotonic lightness), direct percentage labels on every
+  cell so color is never the only channel carrying the value.
+- **Annual meeting page** (`/annual-meeting`) — joke agenda + a client-side
+  "ballot" (no backend; the joke is that voting has no effect either way).
+- Fixed a real polish bug along the way: plain inline links in body copy
+  (e.g. "Register" on the lot page) had no base style and rendered
+  browser-default blue — added a base `a` rule; more specific rules
+  (nav, footer, registry rows) already override it.
+
+Domain cutover (`moonhoa.com` GitHub Pages -> Vercel) needs real Vercel/
+Supabase/Cloudflare accounts and is tracked separately — see `LAUNCH.md`.
+
 ## Project structure
 
 - `src/app/` — routes (App Router)
@@ -139,18 +170,23 @@ instead of needing a `pending_transfers` table to clean up.
 - `src/app/registry/`, `src/app/api/registry/`, `src/app/lots/[lotId]/` — public registry + lot lookup
 - `src/app/covenants/`, `src/app/arc/`, `src/app/dues/`, `src/app/board/`, `src/app/minutes/` — new static content pages
 - `src/app/admin/`, `src/app/api/admin/login/`, `src/app/api/reports/` — moderation + admin dashboard
+- `src/app/admin/analytics/` — registrations + most-contested-lots analytics
+- `src/app/density/`, `src/app/annual-meeting/` — Phase 5 stretch pages
 - `src/app/lots/[lotId]/transfer/`, `src/app/api/transfer/` — resale/ownership-transfer handshake
 - `src/components/` — shared design-system components ported from the
   original static site (starfield, seal, decree grid, amenity cards, etc.)
   plus the registration form, lot picker, Turnstile widget, registry table,
-  dues table, board grid, admin login form, report button, and the
-  transfer initiate/confirm/accept forms
+  dues table, board grid, admin login form, report button, transfer
+  initiate/confirm/accept forms, and the annual-meeting ballot
 - `src/lib/content.ts` — homepage copy (regulations, amenities, events, notices)
-- `src/lib/staticPagesContent.ts` — copy for the Phase 2 static pages
+- `src/lib/staticPagesContent.ts` — copy for the Phase 2+ static pages
 - `src/lib/lots.ts` — lot grid math (cell <-> lot code encoding)
+- `src/lib/densityColor.ts` — sequential color ramp for the density map
 - `src/lib/profanity.ts` — display name filter
 - `src/lib/turnstile.ts` — Turnstile site key + server-side verification
 - `src/lib/admin.ts` — admin email allowlist + session check
 - `src/lib/supabase/` — server/admin/public Supabase client helpers
 - `supabase/migrations/` — SQL schema
 - `scripts/seed-lots.ts` — lot grid seed script
+- `scripts/race-test.ts` — race-condition load test (needs Docker)
+- `LAUNCH.md` — the actual launch/cutover runbook
