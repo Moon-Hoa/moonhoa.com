@@ -567,6 +567,23 @@ a:hover { text-decoration-color: var(--gold-light); }
 .resolution h3 { font-size: 1.3rem; color: var(--cream); margin-bottom: var(--space-3); }
 .resolution p { font-family: var(--font-source-serif), serif; font-style: italic; font-size: 1.05rem; max-width: 560px; margin: 0 auto; }
 
+.certificate {
+  background: rgba(12,20,36,.7);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 4px var(--navy), 0 0 0 5px rgba(var(--gold-rgb),.3);
+  padding: var(--space-12) var(--space-10);
+  text-align: center;
+  margin-top: var(--space-8);
+}
+.certificate-seal { font-size: 40px; margin-bottom: var(--space-4); filter: drop-shadow(0 0 8px rgba(var(--gold-rgb),.4)); }
+.certificate-eyebrow { font-family: var(--font-playfair), serif; font-size: 11px; letter-spacing: .25em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: var(--space-3); }
+.certificate-title { font-family: var(--font-playfair), serif; font-size: 1.6rem; color: var(--cream); margin-bottom: var(--space-6); }
+.certificate-lot { font-family: var(--font-playfair), serif; font-size: 2rem; color: var(--gold-light); letter-spacing: .05em; margin-bottom: var(--space-6); }
+.certificate-field { margin-bottom: var(--space-4); }
+.certificate-field-label { font-family: var(--font-playfair), serif; font-size: 10px; letter-spacing: .2em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: var(--space-1); }
+.certificate-field-value { font-family: var(--font-source-serif), serif; font-size: 1.1rem; color: var(--cream); }
+.certificate-footer { margin-top: var(--space-8); font-size: .8rem; color: var(--text-dim); max-width: 480px; margin-left: auto; margin-right: auto; }
+
 footer {
   position: relative;
   z-index: 5;
