@@ -191,9 +191,15 @@ export const primaryNavLinks = [
 ];
 
 export const secondaryNavLinks = [
-  { href: "/arc", label: "ARC" },
+  { href: "/arc", label: "Committees" },
   { href: "/minutes", label: "Minutes" },
   { href: "/annual-meeting", label: "Annual Meeting" },
+  { href: "/legacy-structures", label: "Legacy Structures" },
+  { href: "/fines", label: "Schedule of Fines" },
+  { href: "/special-assessment", label: "Special Assessment" },
+  { href: "/reserve-study", label: "Reserve Study" },
+  { href: "/collections", label: "Collections Policy" },
+  { href: "/records-request", label: "Records Request" },
   { href: "/#welcome", label: "Welcome" },
   { href: "/#regulations", label: "Regulations" },
   { href: "/#amenities", label: "Amenities" },

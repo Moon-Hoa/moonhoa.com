@@ -8,13 +8,15 @@ export const metadata: Metadata = {
 
 export default function DuesPage() {
   return (
-    <SiteShell sectionLabel="§ 10.0 — Financial Obligations" title="Dues Schedule">
+    <SiteShell sectionLabel="§ 6.1 — Annual HOA Dues" title="Dues Schedule">
       <p>
-        All amounts are denominated in moon dollars (₸), a currency whose
-        exchange rate the Board has never disclosed and does not intend
-        to. Dues are assessed monthly and are due regardless of whether
-        you have visited your lot, can visit your lot, or believe your
-        lot exists.
+        All amounts are denominated in Oxygen Credits (OC), with the
+        approximate real-currency equivalent shown per the Association&apos;s
+        quarterly-set exchange rate (Appendix T) — currently 1.31 OC per
+        Earth-currency unit, the least favourable rate on record. Dues are
+        payable the first day of each Earth calendar year and are due
+        regardless of whether you have visited your lot, can visit your
+        lot, or believe your lot exists.
       </p>
 
       <DuesTable />

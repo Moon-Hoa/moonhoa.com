@@ -128,29 +128,48 @@ export const behaviouralStandards: Decree[] = [
 export const arcSteps: Decree[] = [
   {
     number: "Step 1",
-    title: "Submit Form 12-B",
-    text: "Application for Non-Reflective Surface Treatment (or the appropriate construction-class equivalent) must be submitted in triplicate. Digital submissions are accepted but will still be printed, because the Committee prefers paper.",
+    title: "Submit a Structural Approval Application (Form LRA-300-STR)",
+    text: "Accompanying architectural drawings, a site plan, and a written explanation of necessity are required. Digital submissions are accepted but will still be printed, per Committee preference.",
   },
   {
     number: "Step 2",
-    title: "Initial Review (6–8 Lunar Cycles)",
-    text: "A subcommittee confirms your application is complete, then schedules a second meeting to confirm that confirmation. No construction may begin during this period, including construction of the mailbox where you'll receive the rejection.",
+    title: "Initial Review (4–6 Weeks)",
+    text: "Standard turnaround per §12.1.2. During any active investigation under Part IV (Behavioural Standards), turnaround extends to 8–12 weeks. No construction may begin during this period.",
   },
   {
     number: "Step 3",
-    title: "Quarterly Committee Hearing",
-    text: "The full Architectural Review Committee meets quarterly to hear applications. Attendance is optional for applicants but strongly recommended, since decisions made in your absence cannot be appealed on the grounds of your absence.",
+    title: "Biweekly Committee Hearing",
+    text: "The Architectural Review Committee, chaired by the Deputy Director of Surface Standards, meets biweekly to hear applications.",
   },
   {
     number: "Step 4",
     title: "Determination",
-    text: "The Committee issues one of three outcomes: Approved, Denied, or Approved Pending Further Review (functionally identical to Denied, but with more paperwork).",
+    text: "The Committee issues Approved, Denied, or Approved Pending Further Review. Written denials must cite the specific Charter section at issue, per §12.1.2.",
   },
   {
     number: "Step 5",
     title: "Appeal",
-    text: "Appeals may be filed within 14 days and are reviewed by the same Committee that issued the original determination, which the Board maintains is \"a completely different process.\"",
+    text: "Denials may be appealed to the Tribunal within 14 days, per §5.4. (The separate Aesthetic Review Committee below has no such appeal path at all.)",
   },
+];
+
+export interface Committee {
+  name: string;
+  chair: string;
+  cadence: string;
+}
+
+// Per §12.9.1, consolidating the meeting frequency and chair for each
+// committee and subcommittee established under Part XII.
+export const committees: Committee[] = [
+  { name: "Architectural Review Committee", chair: "Deputy Director of Surface Standards", cadence: "Biweekly" },
+  { name: "Aesthetic Review Committee", chair: "At-Large Member", cadence: "Quarterly" },
+  { name: "Legacy Equipment Preservation Subcommittee", chair: "Chief Albedo Officer (acting)", cadence: "Monthly" },
+  { name: "Craterscaping Subcommittee", chair: "At-Large Member", cadence: "Monthly" },
+  { name: "Social Events Committee", chair: "Director of Community Relations", cadence: "Monthly, more often before the Full Moon Party" },
+  { name: "Audit & Finance Committee", chair: "Treasurer", cadence: "Monthly" },
+  { name: "Nominating Committee", chair: "Chairperson (ex officio)", cadence: "Annually, ahead of elections" },
+  { name: "Grievance & Ethics Committee", chair: "Deputy Director of Surface Standards", cadence: "As needed" },
 ];
 
 export interface DuesItem {
@@ -159,13 +178,17 @@ export interface DuesItem {
   note: string;
 }
 
+// Per §1.4, the OC/USD exchange rate is set quarterly and has been
+// unfavourable "for as long as records have been kept." Appendix T's most
+// recent annual snapshot: 1.31 OC per Earth-currency unit, up from 1.00 at
+// incorporation in 2088.
 export const duesSchedule: DuesItem[] = [
-  { item: "Base Monthly Assessment", amount: "₸ 480 / mo", note: "Covers general Association overhead and the annual seal-polishing ceremony." },
-  { item: "Crater Maintenance Fund", amount: "₸ 60 / mo", note: "Funds the Crater Cleanup Initiative. Brooms not included; see §2.0." },
-  { item: "Dust Abatement Levy", amount: "₸ 35 / mo", note: "Mandatory regardless of whether your dust has ever left your property boundary." },
-  { item: "Pool Recovery Special Assessment", amount: "₸ 120 (one-time)", note: "Ongoing effort to retrieve the community pool. See Notice No. 2069-051." },
-  { item: "Late Payment Fee", amount: "₸ 25 + 4%/mo", note: "Compounds monthly. The Board considers this \"a gentle reminder.\"" },
-  { item: "Strongly Worded Letter Surcharge", amount: "₸ 0", note: "Complimentary. The Board absorbs this cost as a gesture of goodwill." },
+  { item: "Standard Annual Dues", amount: "200 OC (≈ $153)", note: "Per §6.1.1, payable the first day of each Earth calendar year." },
+  { item: "Crater-Share Annual Dues", amount: "120 OC each (≈ $92)", note: "Per resident, for jointly-registered crater-share properties." },
+  { item: "Premium Compliance Programme", amount: "180 OC (≈ $137)", note: "Includes a commemorative pin — the same one new residents receive automatically, a discrepancy the Board has elected not to address." },
+  { item: "Late Payment Surcharge (30+ days)", amount: "15 OC", note: "Per §6.1.2. An additional 20 OC applies beyond 60 days." },
+  { item: "Special Assessment", amount: "Varies", note: "Levied by resolution when a Reserve Component shortfall exceeds ordinary dues. See the current Special Assessment Notice." },
+  { item: "Strongly Worded Letter", amount: "0 OC", note: "Complimentary. The Board absorbs the (considerable) typesetting cost as a gesture of goodwill." },
 ];
 
 export interface BoardMember {
@@ -174,62 +197,68 @@ export interface BoardMember {
   bio: string;
 }
 
+// Per §5.1.2 — the current sitting Board.
 export const boardMembers: BoardMember[] = [
   {
-    name: "Marguerite Okonkwo-Reyes",
-    title: "President",
-    bio: "Elected unopposed in 2069 and every term since. Believes the Moon's lack of a 24-hour day-night cycle is \"a personal choice the Moon has made and should reconsider.\"",
+    name: "Adaeze Okafor",
+    title: "Chairperson",
+    bio: "Also serves on the Tribunal (§5.4) — by tradition, not requirement. Per §5.3.4, the Chairperson's hand counts for two when votes are taken by show of hands. This has not been challenged since incorporation.",
   },
   {
-    name: "Desmond Vance III",
-    title: "Treasurer",
-    bio: "Keeps the books in a format only he understands. Has never once produced a budget on request, but insists dues are \"extremely reasonable, actually.\"",
+    name: "Tobias Renn",
+    title: "Deputy Director of Surface Standards",
+    bio: "Reviews and countersigns every Strongly Worded Letter (§6.4) before it's sent. Chairs the Architectural Review Committee and the Grievance & Ethics Committee.",
   },
   {
-    name: "Priya Anand-Nakamura",
-    title: "Compliance Officer",
-    bio: "Author of Notice No. 2069-047. Has a working theory about the \"MONS RULE\" incident that she will not share until the investigation concludes, which it will not.",
+    name: "Position Currently Vacant",
+    title: "Keeper of the Dust Drift Ledger",
+    bio: 'Vacant since 2092. Applications are not currently being accepted (§5.1.4). The Board is "working through some things" and will announce next steps in due course. Unconfirmed sightings have been logged at Full Moon Parties.',
   },
   {
-    name: "Buck Ferris",
-    title: "Sergeant-at-Arms",
-    bio: "Enforces meeting order via a gavel he insists is \"regulation lunar-weight.\" Has never been asked to actually remove anyone, but remains vigilant.",
+    name: "Youssef Haddad",
+    title: "Director of Community Relations",
+    bio: "Prepares the Full Moon Party seating chart (§7.3.2) — residents with pending dust drift complaints against each other are seated on opposite sides, non-negotiably. Chairs the Social Events Committee.",
   },
   {
-    name: "Odalys Whitfield",
-    title: "Architectural Review Chair",
-    bio: "Reviews all Form 12-B submissions personally. Has approved four applications since 2069. Is very proud of this.",
+    name: "Priya Anand",
+    title: "Chief Albedo Officer",
+    bio: "Oversees the annual Reflectivity Audit (§3.1). Acting Chair of the Legacy Equipment Preservation Subcommittee, pending resolution of a jurisdictional question the Board has not yet found time to resolve.",
   },
   {
-    name: "Reginald Aldric-Voss",
-    title: "Secretary",
-    bio: "Maintains the official meeting minutes, when a notepad is available. Disputes the Board's characterization of the Q4 2088 gavel incident as \"resolved.\"",
+    name: "Marcus Ilves",
+    title: "Treasurer, Oxygen Credits Division",
+    bio: 'Administers dues, fines, and special assessments (Part VI). Chairs the Audit & Finance Committee, which compiles the Association\'s internal citation rankings — purely, in its own words, "for the diversion."',
+  },
+  {
+    name: "Ingrid Solheim",
+    title: "At-Large Member",
+    bio: "Elected biennially — the only Board seat regularly contested. Chairs both the Aesthetic Review Committee and the Craterscaping Subcommittee.",
   },
 ];
 
 export const meetingMinutes: NoticeItem[] = [
   {
     stamp: "Approved",
-    title: "General Assembly Minutes — Q2 2089",
+    title: "General Assembly Minutes — Q2 2094",
     paragraphs: [
-      "Motion to formally rename the \"Full Moon Party\" to the \"Full Moon Mandatory Community Gathering\" passed 4–1, with President Okonkwo-Reyes abstaining on the grounds that she \"didn't love the branding either way.\"",
-      "Treasurer Vance presented the Q2 budget verbally, from memory, without notes. Motion to request a written copy was tabled indefinitely.",
+      "Treasurer Ilves presented the Q2 budget, noting the Oxygen Credit exchange rate has reached 1.31 per Appendix T — the least favourable rate on record, a distinction the Committee declined to celebrate.",
+      "Director of Community Relations Haddad confirmed Full Moon Party seating chart procedures remain unchanged: residents with pending mutual dust drift complaints will continue to be seated on opposite sides of the venue, per §7.3.2.",
     ],
   },
   {
     stamp: "Approved",
-    title: "General Assembly Minutes — Q1 2089",
+    title: "General Assembly Minutes — Q1 2094",
     paragraphs: [
-      "Compliance Officer Anand-Nakamura provided a 40-minute update on the \"MONS RULE\" surface graffiti investigation, concluding with \"we're close, we're very close.\"",
-      "Motion to approve a fourth Form 12-B application (satellite dish, 1.8m, non-reflective) passed unanimously. ARC Chair Whitfield described it as \"a good day.\"",
+      'The Compliance Office provided an update on the ongoing "MONS RULE" surface graffiti investigation — now three confirmed occurrences. Anonymous tips remain actively encouraged per §14.2.1.',
+      "Chief Albedo Officer Anand reported the annual Reflectivity Audit is on schedule. Board member properties remain exempt from imagery review pending equipment recalibration, a status unchanged since the position was first filled.",
     ],
   },
   {
-    stamp: "Contested",
-    title: "General Assembly Minutes — Q4 2088",
+    stamp: "Noted",
+    title: "General Assembly Minutes — Q4 2093",
     paragraphs: [
-      "Extended debate over whether the Zero-Gravity Swimming Pool's continued drift constitutes an \"amenity\" or a \"missing person report.\" No resolution reached; item carried forward to Q1 2089.",
-      "Sergeant-at-Arms Ferris's gavel was confiscated mid-meeting after an unrelated procedural dispute, then returned once the dispute was found to be about the gavel itself.",
+      "The Legacy Equipment Preservation Subcommittee revisited its proposal to merge the vacant Keeper of the Dust Drift Ledger seat into Subcommittee membership. Tabled again for lack of a Keeper to consult regarding their own merger.",
+      "Deputy Director Renn confirmed all Strongly Worded Letters issued this quarter were countersigned by the full sitting Board, including the vacant Keeper's seat, per §6.4.4 (\"[Position Vacant — Intent Endorsed.]\").",
     ],
   },
 ];
@@ -237,8 +266,8 @@ export const meetingMinutes: NoticeItem[] = [
 export const annualMeetingAgenda: Decree[] = [
   {
     number: "Item 1",
-    title: "Call to Order",
-    text: "Quorum is determined by whoever showed up. Historically, this has never been fewer than three people and one very committed houseplant.",
+    title: "Call to Order & Quorum Certification",
+    text: "Per §5.3.6, binding votes (budget ratification, Board elections) require attendance or proxy from at least 25% of registered lots. Meetings falling short proceed as informal gatherings — refreshments are served regardless.",
   },
   {
     number: "Item 2",
@@ -247,33 +276,33 @@ export const annualMeetingAgenda: Decree[] = [
   },
   {
     number: "Item 3",
-    title: "Treasurer's Report",
-    text: "Delivered verbally, from memory, without notes, as is tradition. Written copies remain tabled indefinitely.",
+    title: "Chairperson's Annual Report & Treasurer's Report",
+    text: "Delivered verbally, from memory, without notes, as is tradition. Includes review of the current Reserve Study per §6.5. Written copies remain tabled indefinitely.",
   },
   {
     number: "Item 4",
-    title: "Old Business: MONS RULE Investigation",
-    text: 'Compliance Officer Anand-Nakamura will provide an update. The Board anticipates this update will conclude with "we\'re close, we\'re very close."',
+    title: "Committee Reports",
+    text: "Architectural Review, Aesthetic Review, Legacy Equipment Preservation, Craterscaping, Social Events, and Grievance & Ethics each report in turn.",
   },
   {
     number: "Item 5",
-    title: "New Business: Pool Recovery Budget Amendment",
-    text: "Proposed reallocation of funds toward the ongoing Zero-Gravity Swimming Pool retrieval effort. See Notice No. 2069-051 for background.",
+    title: "Board Elections",
+    text: "For available seats per §5.1.3. The Chairperson's seat is not subject to election. Nominations from the floor are welcomed in spirit but not in practice.",
   },
   {
     number: "Item 6",
-    title: "Board Elections",
-    text: "Uncontested, as always. Nominations from the floor are welcomed in spirit but not in practice.",
+    title: "Old & New Business",
+    text: 'Including any Resident Amendment Petitions received this cycle. The ongoing "MONS RULE" investigation is a standing old-business item until further notice.',
   },
   {
     number: "Item 7",
     title: "Open Floor for Resident Comments",
-    text: "Limited to 30 seconds per resident, strictly enforced by the Sergeant-at-Arms and his gavel, assuming it has not been confiscated.",
+    text: "Limited to 30 seconds per resident. Enforcement mechanism unspecified this revision.",
   },
   {
     number: "Item 8",
-    title: "Adjournment",
-    text: "The meeting will be adjourned at the Board's discretion, regardless of whether Item 7 has concluded.",
+    title: "Adjournment & Refreshments",
+    text: "Per §5.3.6, refreshments are served regardless of whether quorum was met.",
   },
 ];
 
@@ -285,18 +314,234 @@ export interface BallotResolution {
 
 export const ballotResolutions: BallotResolution[] = [
   {
-    id: "2089-r-01",
-    title: "Resolution 2089-R-01",
-    description: "Should the community pool be renamed if and when it is recovered?",
+    id: "2094-r-04",
+    title: "Resolution 2094-R-04",
+    description: "Should the Zero-Gravity Swimming Pool be renamed if and when it is recovered?",
   },
   {
-    id: "2089-r-02",
-    title: "Resolution 2089-R-02",
-    description: "Should Earth-howling hours (§1.5) be extended to include weekdays?",
+    id: "2094-r-05",
+    title: "Resolution 2094-R-05",
+    description: "Should Howling hours (§4.1.3) be extended to include weekdays?",
   },
   {
-    id: "2089-r-03",
-    title: "Resolution 2089-R-03",
-    description: "Should the Sergeant-at-Arms's gavel be replaced with a non-confiscatable model?",
+    id: "2094-r-06",
+    title: "Resolution 2094-R-06",
+    description: "Should the Keeper of the Dust Drift Ledger seat be merged into the Legacy Equipment Preservation Subcommittee?",
   },
+];
+
+export interface FineScheduleItem {
+  violation: string;
+  section: string;
+  fine: string;
+}
+
+// A representative selection from the full Appendix B — Master Schedule of
+// Fines (45+ rows in the source Charter). Chosen for range across Parts
+// III, IV, VI, IX, X, XI, XIII, and XV rather than exhaustive coverage.
+export const fineSchedule: FineScheduleItem[] = [
+  { violation: "Dust drift, Tier 1", section: "§ 3.2.2", fine: "20 OC" },
+  { violation: "Dust drift, Tier 2", section: "§ 3.2.2", fine: "60 OC" },
+  { violation: "Dust drift, Tier 3 (Dust Event)", section: "§ 3.2.2", fine: "200 OC" },
+  { violation: "Albedo non-compliance, per cycle", section: "§ 3.1.3", fine: "40 OC" },
+  { violation: "Unauthorised late landing", section: "§ 4.2.2", fine: "40 OC" },
+  { violation: "Unlicensed structure", section: "§ 3.3.1", fine: "80 OC" },
+  { violation: "Howling outside permitted hours", section: "§ 4.1.4", fine: "25 OC (35 OC during Board meetings)" },
+  { violation: "Unapproved lawn ornament", section: "§ 3.4.2", fine: "30 OC" },
+  { violation: "Unauthorised surface writing", section: "§ 4.5.1", fine: "75 OC — but 50 OC per § 6.2. See note below." },
+  { violation: "Impersonating a Board member", section: "§ 4.5.1", fine: "250 OC" },
+  { violation: "Attempted secession", section: "§ 4.5.1", fine: "500 OC" },
+  { violation: "New monolith installation", section: "§ 3.4.2", fine: "1,000 OC" },
+  { violation: "Filing a knowingly false complaint", section: "§ 14.2.2", fine: "150 OC" },
+  { violation: "Crater modification without approval", section: "§ 3.5.1", fine: "150 OC plus remediation" },
+  { violation: "Filling in a crater entirely", section: "§ 3.5.3", fine: "1,000 OC plus full restoration, where possible" },
+  { violation: "Interfering with a Legacy Structure", section: "§ 4.5.1 / Part IX", fine: "1,000 OC, minimum" },
+  { violation: "Disturbing a memorial site", section: "§ 9.3.4", fine: "2,000 OC, minimum, and immediate Tribunal referral" },
+  { violation: "Removal or possession of a Register item", section: "§ 9.10.1", fine: "2,000 OC, minimum, and Tribunal referral" },
+  { violation: "Failure to maintain solar flare shelter access", section: "§ 10.4.1", fine: "100 OC" },
+  { violation: "Lapsed individual insurance coverage", section: "§ 13.1.2", fine: "50 OC per audit cycle" },
+  { violation: "Contractor operating without proof of liability coverage", section: "§ 13.3.2", fine: "200 OC, contractor barred pending compliance" },
+  { violation: "Submission of knowingly false compliance data to the Registry", section: "§ 15.2.1", fine: "200 OC" },
+  { violation: "Heritage filming without permit", section: "§ 9.9.1", fine: "500 OC" },
+  { violation: "Forum content doxxing a Board member's Earth-based information", section: "§ 15.7.3", fine: "Immediate removal; 300 OC if traced to a specific resident" },
+];
+
+export interface TribunalCase {
+  caseNo: string;
+  name: string;
+  summary: string;
+}
+
+// Per Appendix U, the four most-requested general (non-Howling) Tribunal
+// precedents.
+export const tribunalCases: TribunalCase[] = [
+  {
+    caseNo: "T-2090-008",
+    name: "Resident v. The Board (\"the Retroactive Structure Case\")",
+    summary: "A temporary greenhouse stood 34 days — four beyond the §3.3.2 threshold — due to a documented equipment delay. The Tribunal upheld the retroactive approval fee, but the Board later adopted a standing practice of waiving the fee (not the filing requirement) where delay is documented in advance.",
+  },
+  {
+    caseNo: "T-2091-002",
+    name: "Resident v. Resident (\"the Crater-Share Liability Case\")",
+    summary: "Following a Tier 2 dust drift event on a jointly-held crater-share property, one co-resident argued they bore no liability, having been off-property at the time. The Tribunal upheld joint-and-several liability per §2.4.4 regardless — presence is not the test.",
+  },
+  {
+    caseNo: "T-2093-011",
+    name: "Resident v. The Board (\"the Emergency Landing Paperwork Case\")",
+    summary: "A resident who made a documented emergency landing filed the required incident report on day 51 rather than within 48 hours. The Tribunal upheld the fine — the emergency had concluded well within the reporting window, and \"I was still shaking\" was sympathetic but not a Charter exception.",
+  },
+  {
+    caseNo: "T-2094-005",
+    name: "Resident v. The Board (\"the Directory Opt-Out Case\")",
+    summary: "A resident argued that opting out of the Resident Directory (§2.6.2) should also exempt them from the Good Neighbour introduction at §14.3. The Tribunal held the two provisions unrelated, noting §14.3 carries no enforcement mechanism in any case.",
+  },
+];
+
+export interface ReserveComponent {
+  name: string;
+  fundedPct: string;
+  status: string;
+}
+
+// Per the current Reserve Study Summary (Appendix M, Specimen 5).
+export const reserveComponents: ReserveComponent[] = [
+  { name: "Moonwalk Trail", fundedPct: "68%", status: "Adequate. No action recommended." },
+  { name: "Community Hall", fundedPct: "74%", status: "Adequate." },
+  { name: "Zero-Gravity Swimming Pool", fundedPct: "11%", status: "Critical shortfall. See current Special Assessment Notice." },
+  { name: "Solar Tanning Deck", fundedPct: "91%", status: "Reflects low utilisation-driven wear, per the Committee, \"rather than particularly effective saving.\"" },
+];
+
+export interface LegacyStructure {
+  site: string;
+  coordinates: string;
+  origin: string;
+  contents: string;
+  bufferZone: string;
+  status: string;
+}
+
+// Per Appendix C — Register of Pre-Existing Historic Surface Structures.
+// Coordinates are planetocentric degrees, rounded, as published.
+export const legacyStructures: LegacyStructure[] = [
+  {
+    site: "Tranquility Base",
+    coordinates: "0.67°N, 23.47°E",
+    origin: "United States — first crewed landing, late 20th c.",
+    contents: "Descent stage, flag, seismometer, laser-ranging retroreflector, tools, and an estimated 100+ smaller discarded items",
+    bufferZone: "500 m",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Ocean of Storms site",
+    coordinates: "3.01°S, 23.42°W",
+    origin: "United States, late 20th c.",
+    contents: "Descent stage, instrument package; a nearby robotic probe visited and partially sampled by the crew",
+    bufferZone: "300 m",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Fra Mauro highlands site",
+    coordinates: "3.65°S, 17.47°W",
+    origin: "United States, early 1970s",
+    contents: "Descent stage, instrument package, and two recreational sporting items left during an unscheduled demonstration",
+    bufferZone: "300 m",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Hadley Rille site",
+    coordinates: "26.13°N, 3.63°E",
+    origin: "United States, early 1970s",
+    contents: "Descent stage, first lunar roving vehicle, a small memorial sculpture and plaque, and apparatus from a public physics demonstration",
+    bufferZone: "300 m; memorial under § 9.3.4",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Descartes Highlands site",
+    coordinates: "8.97°S, 15.50°E",
+    origin: "United States, early 1970s",
+    contents: "Descent stage, second lunar roving vehicle, and a personal family photograph left by a crew member",
+    bufferZone: "300 m",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Taurus-Littrow site",
+    coordinates: "20.19°N, 30.77°E",
+    origin: "United States, early 1970s",
+    contents: "Descent stage, third lunar roving vehicle, commemorative plaque, and surface inscriptions left by the final crew to walk on the surface",
+    bufferZone: "300 m",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Multiple sites, near side",
+    coordinates: "Various",
+    origin: "Soviet Union / Russian Federation, mid-late 20th c.",
+    contents: "Robotic landers and two teleoperated rovers; two retroreflectors still used in active laser-ranging work",
+    bufferZone: "200 m each",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Multiple sites, incl. one far-side",
+    coordinates: "Various",
+    origin: "China (CNSA), 21st c.",
+    contents: "Robotic landers and rovers, including the first successful far-side soft landing and two robotic sample-return missions",
+    bufferZone: "200 m each; far-side site outside enforcement range, § 1.2.2",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "South polar region site",
+    coordinates: "Southern, exact coordinates restricted",
+    origin: "India (ISRO), 21st c.",
+    contents: "Robotic lander and rover, first successful soft landing in the lunar south polar region",
+    bufferZone: "200 m",
+    status: "Registered — Grandfathered",
+  },
+  {
+    site: "Multiple commercial sites",
+    coordinates: "Various",
+    origin: "Private aerospace companies, multiple nations, 21st c.",
+    contents: "A growing set of robotic landers, several resting at an angle the Board considers structurally undignified",
+    bufferZone: "150 m each; see § 9.6.3",
+    status: "Registered — Grandfathered; several Non-Conforming",
+  },
+  {
+    site: "Scattered impact & debris sites",
+    coordinates: "Various, uncatalogued below 50kg",
+    origin: "Multiple, mid-20th c. onward",
+    contents: "Discarded rocket stages and uncontrolled impact debris",
+    bufferZone: "Not individually buffered; see § 10.5.2",
+    status: "Partially Registered",
+  },
+];
+
+export interface CollectionsStage {
+  stage: string;
+  day: string;
+  action: string;
+}
+
+// Per §6.7.1's collections process table.
+export const collectionsStages: CollectionsStage[] = [
+  { stage: "1", day: "1–45", action: "Payment due. Payment plans available on written request." },
+  { stage: "2", day: "46", action: "Account declared delinquent. Late fee (35 OC) plus 1.5% monthly interest applied." },
+  { stage: "3", day: "60", action: "Formal demand letter sent via certified transmission (approx. 2.6 second one-way delay, per standard communications terms)." },
+  { stage: "4", day: "90", action: "Account referred to the Association's collections counsel. Counsel's fees and costs of collection are added to the balance owed." },
+  { stage: "5", day: "120", action: "Lien recorded against the property with the Lunar Registry Office." },
+];
+
+export interface RecordsFaq {
+  question: string;
+  response: string;
+}
+
+// Per Appendix P — Frequently Submitted Records Requests.
+export const recordsFaq: RecordsFaq[] = [
+  { question: "Where is the pool?", response: "See the most recent Special Assessment Notice. The Board will update residents if and when the pool is located." },
+  { question: "Why is my albedo assessment different from my neighbour's?", response: "Albedo is assessed per-property based on actual surface conditions. Differences are expected and are not, on their own, evidence of unequal enforcement." },
+  { question: "Can I speak to the Keeper of the Dust Drift Ledger?", response: "The position is currently vacant. See §5.1.4." },
+  { question: "Why does my correspondence go to spam?", response: "This is a known and, per §2.1.2, acknowledged condition. It is not a malfunction." },
+  { question: "Can I get a copy of Volumes II through XII?", response: "Yes, via Form LRA-905. Estimated response time is longer than for Volume I alone." },
+  { question: 'Is the Board aware that "MONS RULE" has appeared again?', response: "Yes. The investigation remains open. See Appendix D." },
+  { question: "Why wasn't my agenda item included in the Board meeting?", response: "The Board reviews all submitted items and is under no obligation to include them. See §5.3.3." },
+  { question: "Has NASA (or any other agency) ever responded to Association correspondence?", response: "Not to date. See Appendix H." },
+  { question: "Can I remove an old lander from near my property?", response: "No. See §9.10.1 and the associated fine schedule at Appendix B." },
 ];

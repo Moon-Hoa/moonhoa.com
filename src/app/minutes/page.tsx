@@ -9,11 +9,12 @@ export const metadata: Metadata = {
 
 export default function MinutesPage() {
   return (
-    <SiteShell sectionLabel="§ 12.0 — Official Record" title="Meeting Minutes">
+    <SiteShell sectionLabel="§ 5.3 — Meeting Procedures" title="Meeting Minutes">
       <p>
-        Minutes are recorded by whichever board member remembers to bring
-        a notepad. Approved minutes are final; contested minutes remain
-        contested indefinitely.
+        Regular Board meetings are held the first Earth-Saturday of each
+        month at 14:00 UTC. Minutes are archived and, per §5.3.5, made
+        available on request to residents in Good Standing. Full committee
+        minutes archives are available through a Records Request (§15.4).
       </p>
 
       {meetingMinutes.map((entry, i) => (
