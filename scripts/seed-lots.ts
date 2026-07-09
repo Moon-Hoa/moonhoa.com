@@ -62,13 +62,24 @@ type LotRow = { lot_id: string; lat_cell: number; lon_cell: number };
 async function seedSupabase(url: string, key: string, total: number) {
   const supabase = createClient(url, key, { auth: { persistSession: false } });
 
+  const MAX_ATTEMPTS = 5;
+
   const upsertBatch = async (batch: LotRow[]) => {
-    const { error } = await supabase.from("lots").upsert(batch, {
-      onConflict: "lot_id",
-      ignoreDuplicates: true,
-    });
-    if (error) {
-      throw new Error(`Failed to seed batch starting with ${batch[0].lot_id}: ${error.message}`);
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      const { error } = await supabase.from("lots").upsert(batch, {
+        onConflict: "lot_id",
+        ignoreDuplicates: true,
+      });
+      if (!error) return;
+
+      if (attempt === MAX_ATTEMPTS) {
+        throw new Error(`Failed to seed batch starting with ${batch[0].lot_id} after ${MAX_ATTEMPTS} attempts: ${error.message}`);
+      }
+      // Transient network/connection errors under sustained load — back off
+      // and retry rather than aborting the whole run over one bad request.
+      const delayMs = 500 * 2 ** (attempt - 1);
+      process.stdout.write(`\n  retry ${attempt}/${MAX_ATTEMPTS} for batch starting ${batch[0].lot_id} (${error.message}), waiting ${delayMs}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
     }
   };
 
