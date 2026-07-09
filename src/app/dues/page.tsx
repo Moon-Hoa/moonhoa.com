@@ -18,6 +18,25 @@ export default function DuesPage() {
       </p>
 
       <DuesTable />
+
+      <div className="notice" style={{ marginTop: 32 }}>
+        <h3>Insurance Requirements (Part XIII)</h3>
+        <p>
+          Per §13.1.1, every registered resident must separately maintain an
+          individual Lunar Habitation Policy providing no less than 500,000
+          oxygen credits of structural and liability coverage, naming the
+          Association as an additional interested party. Proof of current
+          coverage must be filed annually alongside dues (§13.1.2) — lapsed
+          coverage is treated as a compliance violation under §6.3.
+        </p>
+        <p style={{ marginBottom: 0 }}>
+          The Association&apos;s own Master Policy (§13.2.1) covers common
+          amenities and shared utility infrastructure, but expressly
+          excludes any Legacy Structure under Part IX — the Board is not
+          prepared to explain fifty-year-old hardware it did not build to an
+          underwriter.
+        </p>
+      </div>
     </SiteShell>
   );
 }
