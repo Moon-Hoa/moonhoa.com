@@ -152,18 +152,18 @@ export interface NoticeItem {
 export const notices: NoticeItem[] = [
   {
     stamp: "Unresolved",
-    title: "Notice No. 2069-047: Surface Inscription Investigation",
+    title: "Notice No. 2093-047: Surface Inscription Investigation",
     paragraphs: [
-      'The Board is aware that the phrase "MONS RULE" has been inscribed on the lunar surface in letters exceeding 200 meters in height, visible from low Earth orbit. This constitutes violations of §1.6 (surface graffiti), §1.3 (unauthorized structures), and the general spirit of community decency.',
+      'The Board is aware that the phrase "MONS RULE" has been inscribed on the lunar surface in letters exceeding 200 meters in height, visible from low Earth orbit. This constitutes a violation of §4.5.1 (unauthorized surface writing without a Lunar Surface Expression Permit, Form LRA-WRITE-1). This is the third confirmed occurrence and remains under active investigation.',
       "If you have information regarding this incident, you are encouraged to contact the Compliance Office. Anonymity is guaranteed. We will still absolutely figure out who it was.",
     ],
   },
   {
     stamp: "Action Required",
-    title: "Notice No. 2069-051: Zero-Gravity Pool Recovery Initiative",
+    title: "Notice No. 2093-051: Zero-Gravity Pool Recovery Initiative",
     paragraphs: [
-      "The community pool was last observed at coordinates 14°N, 32°W, traveling at approximately 1.6 km/h in a generally eastward direction. Residents with viable retrieval plans are encouraged to submit proposals by end of quarter.",
-      "The Board reminds residents that this is, in fact, not the first time the pool has escaped.",
+      "Per §7.1.1, the community swimming pool is a sealed, pressurised facility that should be located at the eastern edge of Sector Alpha. It is not. Its Reserve Component (§6.5) has been found critically underfunded since the first Reserve Study, a status that has not materially improved since.",
+      "Residents with sightings are asked to report them to the front office. This is, in fact, not the first time the pool has escaped.",
     ],
   },
 ];

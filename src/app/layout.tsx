@@ -19,7 +19,7 @@ const sourceSerif4 = Source_Serif_4({
 export const metadata: Metadata = {
   title: "Moon Homeowners Association — Official Portal",
   description:
-    "Upholding property standards, community decorum, and dust displacement regulations across all crater-side developments since 2069.",
+    "Upholding property standards, community decorum, and dust displacement regulations across all crater-side developments since 2088.",
 };
 
 export default function RootLayout({

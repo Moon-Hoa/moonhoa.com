@@ -8,10 +8,12 @@ export default function SiteFooter() {
         ✦ &nbsp; Moon HOA &nbsp; ✦
       </Ornament>
       <div className="footer-seal">🌕</div>
-      <div className="footer-org">Moon Homeowners Association · Chartered 2069</div>
+      <div className="footer-org">Moon Homeowners Association · Chartered 2088</div>
       <p className="footer-legal">
-        The Moon HOA is a duly constituted governing body operating under the
-        authority of no one in particular. All rules contained herein are
+        The Moon HOA operates under the administrative authority of the
+        Lunar Residential Authority (the &ldquo;LRA,&rdquo; the
+        &ldquo;Authority,&rdquo; or, informally, &ldquo;the people who sent
+        you that letter,&rdquo; per §1.1.1). All rules contained herein are
         binding, enforceable, and largely unenforced. The Association accepts
         no responsibility for property damage caused by meteorite impact,
         tidal forces, or the general hostility of the lunar environment.
@@ -36,8 +38,8 @@ export default function SiteFooter() {
           letterSpacing: ".15em",
         }}
       >
-        © 2069–2089 Moon Homeowners Association. All rights reserved.
-        Earth-visible from 384,400 km.
+        © 2088–{new Date().getFullYear()} Moon Homeowners Association. All
+        rights reserved. Earth-visible from 384,400 km.
       </p>
     </footer>
   );

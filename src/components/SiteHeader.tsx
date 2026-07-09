@@ -2,7 +2,7 @@ export default function SiteHeader() {
   return (
     <header>
       <div className="header-top-bar">
-        Established by Lunar Charter · Anno Domini 2069 · Sol-Earth Orbit Zone 1
+        Established by Lunar Charter · Anno Domini 2088 · Sol-Earth Orbit Zone 1
       </div>
 
       <div className="seal-wrapper">
@@ -26,7 +26,7 @@ export default function SiteHeader() {
               letterSpacing="3.2"
             >
               <textPath href="#circle-path">
-                MOON HOMEOWNERS ASSOCIATION · OFFICIAL SEAL · EST. 2069 ·
+                MOON HOMEOWNERS ASSOCIATION · OFFICIAL SEAL · EST. 2088 ·
               </textPath>
             </text>
           </svg>
@@ -45,7 +45,7 @@ export default function SiteHeader() {
       <p className="header-tagline">
         Upholding property standards, community decorum, and dust
         displacement regulations across all crater-side developments since
-        2069.
+        2088.
       </p>
 
       <div className="ornament" style={{ maxWidth: 400, margin: "0 auto" }}>
@@ -55,10 +55,11 @@ export default function SiteHeader() {
       </div>
 
       <div className="header-badges">
-        <div className="badge">ISO 9001:2069 Certified</div>
+        <div className="badge">ISO 9001:2088 Certified</div>
         <div className="badge">Interplanetary HOA Alliance Member</div>
         <div className="badge">Zero-G Compliant</div>
         <div className="badge">Earth-Visibility Rated</div>
+        <div className="badge">Order. Albedo. Compliance.</div>
       </div>
     </header>
   );
