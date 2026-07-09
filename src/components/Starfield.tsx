@@ -2,15 +2,21 @@
 
 import { useEffect, useRef } from "react";
 
-export default function Starfield() {
+const STAR_COUNT = {
+  full: 200,
+  subtle: 60,
+};
+
+export default function Starfield({ density = "subtle" }: { density?: "full" | "subtle" }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
+    const count = STAR_COUNT[density];
     const stars: HTMLDivElement[] = [];
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < count; i++) {
       const s = document.createElement("div");
       s.className = "star";
       const size = Math.random() < 0.85 ? 1 : Math.random() < 0.7 ? 1.5 : 2;
@@ -22,7 +28,7 @@ export default function Starfield() {
     return () => {
       stars.forEach((s) => s.remove());
     };
-  }, []);
+  }, [density]);
 
   return <div className="starfield" ref={ref} aria-hidden="true" />;
 }

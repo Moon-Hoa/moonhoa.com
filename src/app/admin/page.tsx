@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Starfield from "@/components/Starfield";
-import SiteNav from "@/components/SiteNav";
-import SiteFooter from "@/components/SiteFooter";
-import SectionLabel from "@/components/SectionLabel";
-import Ornament from "@/components/Ornament";
+import SiteShell from "@/components/SiteShell";
 import AdminLoginForm from "@/components/AdminLoginForm";
+import { Panel, PanelRow } from "@/components/Panel";
 import { getAdminUser } from "@/lib/admin";
 import { isSupabaseAdminConfigured } from "@/lib/supabase/config";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -80,9 +77,9 @@ export default async function AdminPage() {
       {(reports ?? []).length === 0 ? (
         <p className="lot-picker-note">No open reports.</p>
       ) : (
-        <div className="admin-table">
+        <Panel>
           {reports!.map((report) => (
-            <div className="admin-row" key={report.id}>
+            <PanelRow className="admin-row" key={report.id}>
               <span className="admin-cell-lot">{report.lot_id}</span>
               <span>{report.reason || "No reason given"}</span>
               <span className="admin-cell-date">{new Date(report.created_at).toLocaleDateString()}</span>
@@ -99,18 +96,18 @@ export default async function AdminPage() {
                   </button>
                 </form>
               </div>
-            </div>
+            </PanelRow>
           ))}
-        </div>
+        </Panel>
       )}
 
       <h3 style={{ marginTop: 40 }}>Members</h3>
       {(members ?? []).length === 0 ? (
         <p className="lot-picker-note">No registered members yet.</p>
       ) : (
-        <div className="admin-table">
+        <Panel>
           {members!.map((member) => (
-            <div className="admin-row" key={member.id}>
+            <PanelRow className="admin-row" key={member.id}>
               <span>{member.display_name}</span>
               <span>{member.email}</span>
               <span className="admin-cell-date">{member.is_banned ? "Banned" : "Active"}</span>
@@ -127,18 +124,18 @@ export default async function AdminPage() {
                   </form>
                 )}
               </div>
-            </div>
+            </PanelRow>
           ))}
-        </div>
+        </Panel>
       )}
 
       <h3 style={{ marginTop: 40 }}>Claimed Lots</h3>
       {(lots ?? []).length === 0 ? (
         <p className="lot-picker-note">No claimed lots yet.</p>
       ) : (
-        <div className="admin-table">
+        <Panel>
           {lots!.map((lot) => (
-            <div className="admin-row" key={lot.lot_id}>
+            <PanelRow className="admin-row" key={lot.lot_id}>
               <span className="admin-cell-lot">{lot.lot_id}</span>
               <span>{lot.claimed_at ? new Date(lot.claimed_at).toLocaleDateString() : "—"}</span>
               <span />
@@ -149,9 +146,9 @@ export default async function AdminPage() {
                   </button>
                 </form>
               </div>
-            </div>
+            </PanelRow>
           ))}
-        </div>
+        </Panel>
       )}
     </Shell>
   );
@@ -159,18 +156,8 @@ export default async function AdminPage() {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <Starfield />
-      <SiteNav />
-      <main>
-        <section>
-          <SectionLabel>§ 13.0 — Administration</SectionLabel>
-          <h2>Admin Dashboard</h2>
-          <Ornament style={{ marginBottom: 32 }}>❧</Ornament>
-          {children}
-        </section>
-      </main>
-      <SiteFooter />
-    </>
+    <SiteShell sectionLabel="§ 13.0 — Administration" title="Admin Dashboard">
+      {children}
+    </SiteShell>
   );
 }

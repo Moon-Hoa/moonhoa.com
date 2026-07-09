@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Playfair_Display,
-  EB_Garamond,
-  Cormorant_SC,
-  Source_Serif_4,
-} from "next/font/google";
+import { Playfair_Display, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -12,19 +7,6 @@ const playfair = Playfair_Display({
   weight: ["400", "600", "700", "900"],
   style: ["normal", "italic"],
   variable: "--font-playfair",
-});
-
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-garamond",
-});
-
-const cormorantSC = Cormorant_SC({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant-sc",
 });
 
 const sourceSerif4 = Source_Serif_4({
@@ -46,10 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${playfair.variable} ${ebGaramond.variable} ${cormorantSC.variable} ${sourceSerif4.variable}`}
-    >
+    <html lang="en" className={`${playfair.variable} ${sourceSerif4.variable}`}>
       <body>{children}</body>
     </html>
   );

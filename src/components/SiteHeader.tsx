@@ -20,7 +20,7 @@ export default function SiteHeader() {
               />
             </defs>
             <text
-              fontFamily="Cormorant SC, serif"
+              fontFamily="Playfair Display, serif"
               fontSize="7.5"
               fill="rgba(201,168,76,0.7)"
               letterSpacing="3.2"

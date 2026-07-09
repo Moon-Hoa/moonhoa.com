@@ -17,7 +17,7 @@ import { notices } from "@/lib/content";
 export default function Home() {
   return (
     <>
-      <Starfield />
+      <Starfield density="full" />
       <SiteHeader />
       <SiteNav />
 
