@@ -120,6 +120,12 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
         </p>
       )}
 
+      {ownerName && (
+        <p style={{ marginTop: 24 }}>
+          <Link href={`/lots/${lotId}/certificate`}>View Certificate of Lunar Lot Ownership &rarr;</Link>
+        </p>
+      )}
+
       <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
         <ReportButton lotId={lotId} />
         {ownerName && <TransferForm lotId={lotId} />}

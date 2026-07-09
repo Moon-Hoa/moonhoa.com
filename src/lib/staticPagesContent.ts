@@ -545,3 +545,42 @@ export const recordsFaq: RecordsFaq[] = [
   { question: "Has NASA (or any other agency) ever responded to Association correspondence?", response: "Not to date. See Appendix H." },
   { question: "Can I remove an old lander from near my property?", response: "No. See §9.10.1 and the associated fine schedule at Appendix B." },
 ];
+
+export interface GazetteItem {
+  headline: string;
+  body: string;
+}
+
+export interface GazetteIssue {
+  issue: string;
+  date: string;
+  items: GazetteItem[];
+}
+
+// The recurring HOA Gazette. Each issue is a curated mix of real Charter
+// facts reframed as in-character Board announcements. Future issues,
+// including real-world mission tie-ins (Phase 9.7), get appended here.
+export const gazetteIssues: GazetteIssue[] = [
+  {
+    issue: "Issue 1",
+    date: "Q3 2094",
+    items: [
+      {
+        headline: "Reserve Study Certified — Pool Remains Elusive",
+        body: 'The biennial Reserve Study is in: the Moonwalk Trail and Community Hall are adequately funded, the Solar Tanning Deck is overfunded (low usage, the Committee notes, "rather than particularly effective saving"), and the Zero-Gravity Swimming Pool remains at a critical 11%. A Special Assessment of 85 OC has been levied accordingly. See the full Reserve Study Summary.',
+      },
+      {
+        headline: '"MONS RULE" Investigation Enters Its Fifth Year',
+        body: "Three confirmed sightings, zero arrests, one Compliance Office that remains, in its own words, cautiously optimistic. Anonymous tips continue to be actively encouraged — this remains the sole exception to the Charter's no-anonymous-complaints rule.",
+      },
+      {
+        headline: "New This Revision: The Legacy Overlook",
+        body: "Residents and visitors may now observe Tranquility Base from a respectful 500-metre distance. Telephoto imaging equipment is permitted; landing is not. See the Legacy Structures Register for the full catalogue of protected sites.",
+      },
+      {
+        headline: "Dear Board: Advice from the Compliance Office",
+        body: '"My neighbour\'s dust keeps drifting onto my property, but I don\'t want to escalate things." — A Concerned Resident. The Board\'s position: file Form LRA-COMPLAINT-1. Escalation is the process. There is no non-escalating tier.',
+      },
+    ],
+  },
+];

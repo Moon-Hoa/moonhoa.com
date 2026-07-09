@@ -17,6 +17,7 @@ const sourceSerif4 = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://moonhoa.com"),
   title: "Moon Homeowners Association — Official Portal",
   description:
     "Upholding property standards, community decorum, and dust displacement regulations across all crater-side developments since 2088.",
