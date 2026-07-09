@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import Starfield from "@/components/Starfield";
-import SiteNav from "@/components/SiteNav";
-import SiteFooter from "@/components/SiteFooter";
-import SectionLabel from "@/components/SectionLabel";
-import Ornament from "@/components/Ornament";
+import SiteShell from "@/components/SiteShell";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 import { densityColor } from "@/lib/densityColor";
@@ -25,24 +21,14 @@ interface DensityCell {
 
 export default async function DensityPage() {
   return (
-    <>
-      <Starfield />
-      <SiteNav />
-      <main>
-        <section>
-          <SectionLabel>§ 7.2 — Settlement Patterns</SectionLabel>
-          <h2>Lot Density Map</h2>
-          <Ornament style={{ marginBottom: 32 }}>❧</Ornament>
-          <p>
-            Claim density across the Association&apos;s jurisdiction, binned
-            into 5°×5° selenographic regions. Darker cells are mostly
-            unclaimed; brighter cells are hot property.
-          </p>
-          <DensityGrid />
-        </section>
-      </main>
-      <SiteFooter />
-    </>
+    <SiteShell sectionLabel="§ 7.2 — Settlement Patterns" title="Lot Density Map">
+      <p>
+        Claim density across the Association&apos;s jurisdiction, binned
+        into 5°×5° selenographic regions. Darker cells are mostly
+        unclaimed; brighter cells are hot property.
+      </p>
+      <DensityGrid />
+    </SiteShell>
   );
 }
 

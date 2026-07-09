@@ -32,7 +32,7 @@ export default function SiteFooter() {
           marginTop: 28,
           fontSize: ".78rem",
           color: "rgba(136,150,170,.4)",
-          fontFamily: "var(--font-cormorant-sc), serif",
+          fontFamily: "var(--font-playfair), serif",
           letterSpacing: ".15em",
         }}
       >

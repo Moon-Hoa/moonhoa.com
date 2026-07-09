@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Starfield from "@/components/Starfield";
-import SiteNav from "@/components/SiteNav";
-import SiteFooter from "@/components/SiteFooter";
-import SectionLabel from "@/components/SectionLabel";
-import Ornament from "@/components/Ornament";
+import SiteShell from "@/components/SiteShell";
+import { Panel, PanelRow } from "@/components/Panel";
 import ReportButton from "@/components/ReportButton";
 import TransferForm from "@/components/TransferForm";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
@@ -76,38 +73,38 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
 
   return (
     <LotLookupShell lotId={lotId}>
-      <div className="lot-detail">
-        <div className="lot-detail-row">
+      <Panel>
+        <PanelRow className="lot-detail-row">
           <span>Selenographic coordinates</span>
           <strong>
             {cellToDeg(lot.lat_cell).toFixed(1)}°, {cellToDeg(lot.lon_cell).toFixed(1)}°
           </strong>
-        </div>
-        <div className="lot-detail-row">
+        </PanelRow>
+        <PanelRow className="lot-detail-row">
           <span>Status</span>
           <strong>{ownerName ? "Claimed" : "Unclaimed"}</strong>
-        </div>
+        </PanelRow>
         {ownerName && (
-          <div className="lot-detail-row">
+          <PanelRow className="lot-detail-row">
             <span>Registered owner</span>
             <strong>{ownerName}</strong>
-          </div>
+          </PanelRow>
         )}
         {lot.claimed_at && (
-          <div className="lot-detail-row">
+          <PanelRow className="lot-detail-row">
             <span>Claimed</span>
             <strong>{new Date(lot.claimed_at).toLocaleDateString()}</strong>
-          </div>
+          </PanelRow>
         )}
-        <div className="lot-detail-row">
+        <PanelRow className="lot-detail-row">
           <span>Ownership history</span>
           <strong>
             {transferCount === 0
               ? "Never changed hands"
               : `Changed hands ${transferCount} time${transferCount === 1 ? "" : "s"}`}
           </strong>
-        </div>
-      </div>
+        </PanelRow>
+      </Panel>
 
       {transferCount > 0 && (
         <ul style={{ marginTop: 12, marginBottom: 0, paddingLeft: 20, color: "var(--text-dim)", fontSize: ".85rem" }}>
@@ -133,18 +130,8 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
 
 function LotLookupShell({ lotId, children }: { lotId: string; children: React.ReactNode }) {
   return (
-    <>
-      <Starfield />
-      <SiteNav />
-      <main>
-        <section>
-          <SectionLabel>§ 7.1 — Lot Lookup</SectionLabel>
-          <h2>{lotId}</h2>
-          <Ornament style={{ marginBottom: 32 }}>❧</Ornament>
-          {children}
-        </section>
-      </main>
-      <SiteFooter />
-    </>
+    <SiteShell sectionLabel="§ 7.1 — Lot Lookup" title={lotId}>
+      {children}
+    </SiteShell>
   );
 }

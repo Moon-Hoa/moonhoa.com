@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Starfield from "@/components/Starfield";
-import SiteNav from "@/components/SiteNav";
-import SiteFooter from "@/components/SiteFooter";
-import SectionLabel from "@/components/SectionLabel";
-import Ornament from "@/components/Ornament";
+import SiteShell from "@/components/SiteShell";
 import AdminLoginForm from "@/components/AdminLoginForm";
+import { Panel, PanelRow } from "@/components/Panel";
 import { getAdminUser } from "@/lib/admin";
 import { isSupabaseAdminConfigured } from "@/lib/supabase/config";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -72,36 +69,32 @@ export default async function AdminAnalyticsPage() {
       {(mostReported ?? []).length === 0 ? (
         <p className="lot-picker-note">No reports filed yet.</p>
       ) : (
-        <div className="admin-table">
+        <Panel>
           {mostReported!.map((row) => (
-            <div className="admin-row" key={row.lot_id} style={{ gridTemplateColumns: "1fr auto" }}>
-              <Link href={`/lots/${row.lot_id}`} className="admin-cell-lot">
-                {row.lot_id}
-              </Link>
+            <PanelRow href={`/lots/${row.lot_id}`} className="admin-row admin-row-compact" key={row.lot_id}>
+              <span className="admin-cell-lot">{row.lot_id}</span>
               <span className="admin-cell-date">
                 {row.report_count} report{row.report_count === 1 ? "" : "s"}
               </span>
-            </div>
+            </PanelRow>
           ))}
-        </div>
+        </Panel>
       )}
 
       <h3 style={{ marginTop: 40 }}>Most Transferred Lots</h3>
       {(mostTransferred ?? []).length === 0 ? (
         <p className="lot-picker-note">No transfers yet.</p>
       ) : (
-        <div className="admin-table">
+        <Panel>
           {mostTransferred!.map((row) => (
-            <div className="admin-row" key={row.lot_id} style={{ gridTemplateColumns: "1fr auto" }}>
-              <Link href={`/lots/${row.lot_id}`} className="admin-cell-lot">
-                {row.lot_id}
-              </Link>
+            <PanelRow href={`/lots/${row.lot_id}`} className="admin-row admin-row-compact" key={row.lot_id}>
+              <span className="admin-cell-lot">{row.lot_id}</span>
               <span className="admin-cell-date">
                 {row.transfer_count} transfer{row.transfer_count === 1 ? "" : "s"}
               </span>
-            </div>
+            </PanelRow>
           ))}
-        </div>
+        </Panel>
       )}
     </Shell>
   );
@@ -109,21 +102,11 @@ export default async function AdminAnalyticsPage() {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <Starfield />
-      <SiteNav />
-      <main>
-        <section>
-          <SectionLabel>§ 13.1 — Administration</SectionLabel>
-          <h2>Analytics</h2>
-          <Ornament style={{ marginBottom: 32 }}>❧</Ornament>
-          <p>
-            <Link href="/admin">&larr; Back to the admin dashboard</Link>
-          </p>
-          {children}
-        </section>
-      </main>
-      <SiteFooter />
-    </>
+    <SiteShell sectionLabel="§ 13.1 — Administration" title="Analytics">
+      <p>
+        <Link href="/admin">&larr; Back to the admin dashboard</Link>
+      </p>
+      {children}
+    </SiteShell>
   );
 }

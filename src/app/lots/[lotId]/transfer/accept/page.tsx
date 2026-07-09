@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import Starfield from "@/components/Starfield";
-import SiteNav from "@/components/SiteNav";
-import SiteFooter from "@/components/SiteFooter";
-import SectionLabel from "@/components/SectionLabel";
-import Ornament from "@/components/Ornament";
+import SiteShell from "@/components/SiteShell";
 import TransferAcceptForm from "@/components/TransferAcceptForm";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -82,18 +78,8 @@ async function AcceptBody({ lotId }: { lotId: string }) {
 
 function Shell({ lotId, children }: { lotId: string; children: React.ReactNode }) {
   return (
-    <>
-      <Starfield />
-      <SiteNav />
-      <main>
-        <section>
-          <SectionLabel>§ 14.1 — Accept Ownership</SectionLabel>
-          <h2>Accept {lotId}</h2>
-          <Ornament style={{ marginBottom: 32 }}>❧</Ornament>
-          {children}
-        </section>
-      </main>
-      <SiteFooter />
-    </>
+    <SiteShell sectionLabel="§ 14.1 — Accept Ownership" title={`Accept ${lotId}`}>
+      {children}
+    </SiteShell>
   );
 }

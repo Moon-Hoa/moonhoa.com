@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Panel, PanelRow } from "./Panel";
 
 interface RegistryEntry {
   lot_id: string;
@@ -90,15 +90,15 @@ export default function RegistryTable() {
       ) : entries.length === 0 ? (
         <p className="lot-picker-note">No registered members match that search.</p>
       ) : (
-        <div className="registry-table">
+        <Panel>
           {entries.map((entry) => (
-            <Link href={`/lots/${entry.lot_id}`} key={entry.lot_id} className="registry-row">
+            <PanelRow href={`/lots/${entry.lot_id}`} className="registry-row" key={entry.lot_id}>
               <span className="registry-lot">{entry.lot_id}</span>
               <span className="registry-owner">{entry.owner_display_name}</span>
               <span className="registry-date">{new Date(entry.claimed_at).toLocaleDateString()}</span>
-            </Link>
+            </PanelRow>
           ))}
-        </div>
+        </Panel>
       )}
 
       <div className="lot-picker-pagination">

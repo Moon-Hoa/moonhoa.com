@@ -177,20 +177,27 @@ export const stats = [
 
 // Home-relative (`/#...`) rather than bare hashes since these render on
 // non-homepage routes too (e.g. /register) via the shared SiteNav.
-export const navLinks = [
+//
+// Split into primary (always visible, real destinations) and secondary
+// (folded into the nav's "Menu" panel — lower-traffic pages plus same-page
+// anchors into the homepage) to keep the primary bar short.
+export const primaryNavLinks = [
   { href: "/register", label: "Register" },
   { href: "/registry", label: "Registry" },
   { href: "/density", label: "Density Map" },
-  { href: "/#welcome", label: "Welcome" },
-  { href: "/#regulations", label: "Regulations" },
   { href: "/covenants", label: "Covenants" },
-  { href: "/arc", label: "ARC" },
-  { href: "/#amenities", label: "Amenities" },
   { href: "/dues", label: "Dues" },
-  { href: "/#calendar", label: "Calendar" },
   { href: "/board", label: "Board" },
+];
+
+export const secondaryNavLinks = [
+  { href: "/arc", label: "ARC" },
   { href: "/minutes", label: "Minutes" },
   { href: "/annual-meeting", label: "Annual Meeting" },
+  { href: "/#welcome", label: "Welcome" },
+  { href: "/#regulations", label: "Regulations" },
+  { href: "/#amenities", label: "Amenities" },
+  { href: "/#calendar", label: "Calendar" },
   { href: "/#notices", label: "Notices" },
   { href: "/#contact", label: "Contact" },
   { href: "/#charter", label: "Charter" },
