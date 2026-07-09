@@ -8,12 +8,13 @@ export const metadata: Metadata = {
 
 export default function BoardPage() {
   return (
-    <SiteShell sectionLabel="§ 11.0 — Governance" title="Board Members">
+    <SiteShell sectionLabel="§ 5.1 — Board Composition & Election" title="Board Members">
       <p>
-        The Board is elected by the general membership every two years,
-        or has been re-elected unopposed for enough consecutive terms
-        that the distinction is largely academic. Meet your
-        representatives below.
+        The Board consists of seven members serving three-year terms.
+        Elections are held annually for whichever seats are available; the
+        Chairperson&apos;s seat is not subject to election and serves
+        &ldquo;at the pleasure of the Board,&rdquo; which in practice means
+        indefinitely. Meet your representatives below.
       </p>
 
       <BoardGrid />

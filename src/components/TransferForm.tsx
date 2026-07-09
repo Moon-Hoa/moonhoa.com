@@ -66,9 +66,19 @@ export default function TransferForm({ lotId }: { lotId: string }) {
         />
       </label>
 
-      <p style={{ fontSize: ".82rem", color: "var(--text-dim)", marginBottom: 0 }}>
+      <p style={{ fontSize: ".82rem", color: "var(--text-dim)" }}>
         We&apos;ll email the lot&apos;s current registered owner to confirm
         before anything changes hands.
+      </p>
+
+      <p style={{ fontSize: ".82rem", color: "var(--text-dim)", marginBottom: 0 }}>
+        Per §2.4.2, this transfer additionally requires a Lot Transfer &amp;
+        Resale Certificate (45 OC, from the Document Processing Centre),
+        disclosing the property&apos;s assessment balance, open violations,
+        and reserve fund status as of the date of issue. The certificate
+        does not disclose, and the Association accepts no liability
+        regarding, the current location of any Association amenity that
+        has become separated from its registered coordinates.
       </p>
 
       {error && <p className="registration-error">{error}</p>}

@@ -392,6 +392,44 @@ a:hover { text-decoration-color: var(--gold-light); }
 .registry-row { grid-template-columns: 1fr 1fr auto; }
 .event-item { grid-template-columns: 100px 1fr auto; }
 .lot-detail-row { display: flex; justify-content: space-between; }
+.committee-row { grid-template-columns: 1.5fr 1.5fr 1fr; }
+.committee-name { font-family: var(--font-playfair), serif; font-size: .95rem; color: var(--cream); }
+.committee-chair { font-size: .9rem; color: var(--silver); }
+.committee-cadence { font-size: .82rem; color: var(--text-dim); text-align: right; }
+
+.fine-row { grid-template-columns: 2fr auto 1.3fr; }
+.fine-violation { font-family: var(--font-playfair), serif; font-size: .92rem; color: var(--cream); }
+.fine-section { font-size: .82rem; color: var(--gold-dim); white-space: nowrap; }
+.fine-amount { font-family: var(--font-playfair), serif; font-size: .88rem; color: var(--gold-light); text-align: right; }
+
+.reserve-row { grid-template-columns: 1.3fr auto 2fr; }
+.reserve-name { font-family: var(--font-playfair), serif; font-size: .95rem; color: var(--cream); }
+.reserve-pct { font-family: var(--font-playfair), serif; font-size: 1.1rem; color: var(--gold-light); text-align: center; }
+.reserve-status { font-size: .85rem; color: var(--text-dim); text-align: right; }
+
+.legacy-name { font-family: var(--font-playfair), serif; font-size: 1.05rem; color: var(--cream); margin-bottom: var(--space-1); }
+.legacy-origin { font-size: .82rem; color: var(--gold-dim); text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--space-2); }
+.legacy-coords { font-family: var(--font-playfair), serif; font-size: .8rem; color: var(--text-dim); letter-spacing: .04em; margin-bottom: var(--space-3); }
+.legacy-contents { font-size: .87rem; color: var(--silver); line-height: 1.55; margin-bottom: var(--space-3); }
+.legacy-status { display: inline-block; font-family: var(--font-playfair), serif; font-size: 9px; letter-spacing: .1em; padding: 2px var(--space-2); border: 1px solid rgba(var(--gold-rgb),.3); color: var(--gold); text-transform: uppercase; }
+
+.tribunal-case { border-left: 3px solid var(--gold-dim); padding-left: var(--space-5); margin-top: var(--space-6); }
+.tribunal-case-no { font-family: var(--font-playfair), serif; font-size: .8rem; letter-spacing: .1em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: var(--space-1); }
+
+.stage-row { grid-template-columns: 50px 70px 1fr; }
+.stage-number { font-family: var(--font-playfair), serif; font-size: 1.2rem; color: var(--gold-light); }
+.stage-day { font-size: .82rem; color: var(--text-dim); }
+.stage-action { font-size: .88rem; color: var(--silver); }
+
+@media (max-width: 600px) {
+  .committee-row { grid-template-columns: 1fr; text-align: left; }
+  .fine-row { grid-template-columns: 1fr; text-align: left; }
+  .fine-amount, .fine-section { text-align: left; }
+  .reserve-row { grid-template-columns: 1fr; text-align: left; }
+  .reserve-pct, .reserve-status { text-align: left; }
+  .committee-cadence { text-align: left; }
+  .stage-row { grid-template-columns: 1fr; }
+}
 
 /* CardGrid — the shared "hairline card-grid" primitive (the 1px-gap +
    tinted-background trick that draws grid lines without extra borders).
