@@ -39,7 +39,7 @@ export default function ReportButton({ lotId }: { lotId: string }) {
   if (status === "sent") {
     return (
       <p className="lot-picker-note">
-        Report submitted. The Board will investigate with its usual thoroughness.
+        Complaint filed under §14.2. The Board will investigate with its usual thoroughness.
       </p>
     );
   }
@@ -47,13 +47,22 @@ export default function ReportButton({ lotId }: { lotId: string }) {
   if (!open) {
     return (
       <button type="button" className="report-trigger" onClick={() => setOpen(true)}>
-        Report this listing
+        File a Neighbour Complaint (§14.2)
       </button>
     );
   }
 
   return (
     <form className="registration-form" onSubmit={handleSubmit} style={{ maxWidth: 480, marginTop: 16 }}>
+      <p style={{ fontSize: ".85rem" }}>
+        This is the official §14.2 Neighbour Complaint Procedure — the
+        equivalent of Form LRA-COMPLAINT-1. Complaints regarding dust
+        drift, noise, or exterior decoration may not be submitted
+        anonymously; per §14.2.1, only complaints concerning unauthorised
+        surface writing qualify for the anonymous-tip carve-out. Filing a
+        knowingly false complaint is itself a violation under §4.5.1 and
+        carries a 150 OC fine per §14.2.2.
+      </p>
       <label className="registration-field">
         <span>Reason (optional)</span>
         <input
@@ -68,7 +77,7 @@ export default function ReportButton({ lotId }: { lotId: string }) {
       {error && <p className="registration-error">{error}</p>}
 
       <button type="submit" className="registration-submit" disabled={status === "submitting"}>
-        {status === "submitting" ? "Submitting…" : "Submit Report"}
+        {status === "submitting" ? "Submitting…" : "Submit Complaint"}
       </button>
     </form>
   );
