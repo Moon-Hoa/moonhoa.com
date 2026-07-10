@@ -200,6 +200,7 @@ export const secondaryNavLinks = [
   { href: "/reserve-study", label: "Reserve Study" },
   { href: "/collections", label: "Collections Policy" },
   { href: "/records-request", label: "Records Request" },
+  { href: "/violation-notice", label: "Violation Notice Generator" },
   { href: "/gazette", label: "HOA Gazette" },
   { href: "/wall-of-shame", label: "Wall of Shame" },
   { href: "/report-a-neighbor", label: "Report a Neighbor" },

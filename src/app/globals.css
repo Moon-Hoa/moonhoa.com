@@ -524,6 +524,9 @@ a:hover { text-decoration-color: var(--gold-light); }
 .status-disrupted { color: var(--warning); border: 1px solid rgba(224,160,64,.3); }
 .status-closed    { color: var(--danger); border: 1px solid rgba(var(--danger-rgb),.3); }
 
+.standing-good { color: var(--success); }
+.standing-bad  { color: var(--danger); }
+
 .event-date { text-align: center; }
 .event-day { font-family: var(--font-playfair), serif; font-size: 2rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
 .event-dow { font-family: var(--font-playfair), serif; font-size: 10px; letter-spacing: .18em; color: var(--gold-dim); text-transform: uppercase; }
@@ -651,6 +654,18 @@ footer {
 }
 .registration-submit:hover:not(:disabled) { background: var(--gold); color: var(--navy); }
 .registration-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+.oath-block {
+  background: rgba(12,20,36,.7);
+  border: 1px solid rgba(var(--gold-rgb),.15);
+  border-left: 3px solid var(--gold);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.oath-eyebrow { font-family: var(--font-playfair), serif; font-size: 10px; letter-spacing: .2em; color: var(--gold-dim); text-transform: uppercase; }
+.oath-text { font-family: var(--font-source-serif), serif; font-style: italic; font-size: .92rem; line-height: 1.75; color: var(--silver-light); margin-bottom: 0; }
 
 .registration-error {
   color: var(--danger-light);
@@ -845,6 +860,31 @@ footer {
 }
 .density-legend-track { display: flex; flex: 1; height: 10px; max-width: 200px; }
 .density-legend-track > div { flex: 1; }
+
+.legacy-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  background: radial-gradient(circle at 50% 50%, var(--navy-light) 0%, var(--navy-mid) 70%, var(--navy) 100%);
+  border: 1px solid rgba(var(--gold-rgb),.15);
+  overflow: hidden;
+}
+.legacy-map-gridline { position: absolute; left: 0; width: 100%; height: 1px; background: rgba(var(--gold-rgb),.1); }
+.legacy-map-label { position: absolute; font-family: var(--font-playfair), serif; font-size: 9px; letter-spacing: .1em; color: var(--text-dim); text-transform: uppercase; }
+.legacy-map-marker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  border: 1px solid var(--navy);
+  box-shadow: 0 0 6px rgba(var(--gold-rgb),.6);
+  cursor: pointer;
+  padding: 0;
+}
+.legacy-map-marker.non-conforming { background: var(--warning); }
+.legacy-map-marker.active { box-shadow: 0 0 0 4px rgba(var(--gold-rgb),.3), 0 0 8px rgba(var(--gold-rgb),.8); }
 
 .ballot-options { display: flex; gap: var(--space-5); margin-top: var(--space-1); }
 .ballot-option {
