@@ -15,11 +15,24 @@ export default function RecordsRequestForm() {
   const [type, setType] = useState(REQUEST_TYPES[0]);
   const [note, setNote] = useState("");
   const [ticket, setTicket] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const id = Math.floor(10000 + Math.random() * 89999);
-    setTicket(`LRA-514-${id}`);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/records-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ requestType: type }),
+      });
+      const data = await res.json();
+      setTicket(data.ticketId ?? `LRA-514-${Math.floor(10000 + Math.random() * 89999)}`);
+    } catch {
+      setTicket(`LRA-514-${Math.floor(10000 + Math.random() * 89999)}`);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (ticket) {
@@ -67,8 +80,8 @@ export default function RecordsRequestForm() {
         />
       </label>
 
-      <button type="submit" className="registration-submit">
-        Submit Request
+      <button type="submit" className="registration-submit" disabled={submitting}>
+        {submitting ? "Submitting…" : "Submit Request"}
       </button>
     </form>
   );

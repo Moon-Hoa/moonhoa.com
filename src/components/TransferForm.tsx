@@ -3,9 +3,18 @@
 import { useState } from "react";
 
 type Status = "idle" | "submitting" | "sent" | "error";
+type Step = "closed" | "certificate" | "form";
 
-export default function TransferForm({ lotId }: { lotId: string }) {
-  const [open, setOpen] = useState(false);
+export default function TransferForm({
+  lotId,
+  inGoodStanding,
+  poolFundedPct,
+}: {
+  lotId: string;
+  inGoodStanding: boolean | null;
+  poolFundedPct: number | null;
+}) {
+  const [step, setStep] = useState<Step>("closed");
   const [recipientEmail, setRecipientEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -45,11 +54,61 @@ export default function TransferForm({ lotId }: { lotId: string }) {
     );
   }
 
-  if (!open) {
+  if (step === "closed") {
     return (
-      <button type="button" className="report-trigger" onClick={() => setOpen(true)}>
+      <button type="button" className="report-trigger" onClick={() => setStep("certificate")}>
         Transfer this lot
       </button>
+    );
+  }
+
+  if (step === "certificate") {
+    return (
+      <div className="certificate" style={{ maxWidth: 420, marginTop: 16, padding: "24px 28px" }}>
+        <div className="certificate-eyebrow">Document Processing Centre</div>
+        <div className="certificate-title" style={{ fontSize: "1.1rem" }}>
+          Lot Transfer &amp; Resale Certificate
+        </div>
+        <p style={{ fontSize: ".85rem", color: "var(--text-dim)", marginBottom: 16 }}>
+          Per §2.4.2, required for every property transfer. Discloses the
+          property&apos;s standing, open violations, and reserve fund
+          status as of the date of issue.
+        </p>
+
+        <div className="certificate-field">
+          <div className="certificate-field-label">Standing (§2.5)</div>
+          <div className="certificate-field-value" style={{ fontSize: ".95rem" }}>
+            {inGoodStanding === null ? "Not on file" : inGoodStanding ? "Good Standing — no open Tier 2/3 violations" : "Not in Good Standing"}
+          </div>
+        </div>
+        <div className="certificate-field">
+          <div className="certificate-field-label">Reserve Fund Status (§6.5)</div>
+          <div className="certificate-field-value" style={{ fontSize: ".95rem" }}>
+            {poolFundedPct === null
+              ? "Not on file"
+              : `Zero-Gravity Swimming Pool Reserve Component: ${poolFundedPct}% funded${poolFundedPct < 30 ? " — critical shortfall" : ""}`}
+          </div>
+        </div>
+        <div className="certificate-field">
+          <div className="certificate-field-label">Certificate Fee</div>
+          <div className="certificate-field-value" style={{ fontSize: ".95rem" }}>45 OC</div>
+        </div>
+
+        <p className="certificate-footer">
+          Does not disclose, and the Association accepts no liability
+          regarding, the current location of any Association amenity that
+          has become separated from its registered coordinates.
+        </p>
+
+        <button
+          type="button"
+          className="registration-submit"
+          style={{ marginTop: 16 }}
+          onClick={() => setStep("form")}
+        >
+          Issue Certificate (45 OC) &amp; Continue
+        </button>
+      </div>
     );
   }
 
@@ -66,19 +125,9 @@ export default function TransferForm({ lotId }: { lotId: string }) {
         />
       </label>
 
-      <p style={{ fontSize: ".82rem", color: "var(--text-dim)" }}>
-        We&apos;ll email the lot&apos;s current registered owner to confirm
-        before anything changes hands.
-      </p>
-
       <p style={{ fontSize: ".82rem", color: "var(--text-dim)", marginBottom: 0 }}>
-        Per §2.4.2, this transfer additionally requires a Lot Transfer &amp;
-        Resale Certificate (45 OC, from the Document Processing Centre),
-        disclosing the property&apos;s assessment balance, open violations,
-        and reserve fund status as of the date of issue. The certificate
-        does not disclose, and the Association accepts no liability
-        regarding, the current location of any Association amenity that
-        has become separated from its registered coordinates.
+        We&apos;ll email the lot&apos;s current registered owner to confirm
+        before anything changes hands. Certificate issued above.
       </p>
 
       {error && <p className="registration-error">{error}</p>}

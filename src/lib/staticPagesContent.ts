@@ -496,6 +496,14 @@ export const legacyStructures: LegacyStructure[] = [
     status: "Registered — Grandfathered",
   },
   {
+    site: "Odysseus landing site (Malapert A vicinity)",
+    coordinates: "80.13°S, 1.44°E",
+    origin: "Intuitive Machines (IM-1), United States, 21st c. — first US commercial lunar landing, first US lunar landing since 1972",
+    contents: "Robotic lander, came to rest on its side after a harder-than-planned descent — a textbook § 9.6.3 case, broken out of the generic commercial-sites grouping below now that it's a specific, citable mission",
+    bufferZone: "150 m",
+    status: "Registered — Grandfathered; Non-Conforming, § 9.6.3",
+  },
+  {
     site: "Multiple commercial sites",
     coordinates: "Various",
     origin: "Private aerospace companies, multiple nations, 21st c.",
@@ -510,6 +518,31 @@ export const legacyStructures: LegacyStructure[] = [
     contents: "Discarded rocket stages and uncontrolled impact debris",
     bufferZone: "Not individually buffered; see § 10.5.2",
     status: "Partially Registered",
+  },
+];
+
+export interface CorrespondenceEntry {
+  date: string;
+  recipient: string;
+  subject: string;
+  response: string;
+}
+
+// Per Appendix H — Board Correspondence Log with Pre-Association Entities.
+// Extended per the Phase 9.7 Real-World Mission Tie-In Playbook whenever a
+// real mission event happens — see MISSION_TIEIN_PLAYBOOK.md.
+export const correspondenceLog: CorrespondenceEntry[] = [
+  {
+    date: "2024-02-23",
+    recipient: "Operator, IM-1 Odysseus lander",
+    subject: "Welcome and Grandfathered-registration notice, Malapert A vicinity site",
+    response: "None received",
+  },
+  {
+    date: "2024-02-23",
+    recipient: "Operator, IM-1 Odysseus lander",
+    subject: "Reflectivity Audit scheduling request",
+    response: "None received",
   },
 ];
 
@@ -580,6 +613,20 @@ export const gazetteIssues: GazetteIssue[] = [
       {
         headline: "Dear Board: Advice from the Compliance Office",
         body: '"My neighbour\'s dust keeps drifting onto my property, but I don\'t want to escalate things." — A Concerned Resident. The Board\'s position: file Form LRA-COMPLAINT-1. Escalation is the process. There is no non-escalating tier.',
+      },
+    ],
+  },
+  {
+    issue: "Issue 2",
+    date: "Q4 2094",
+    items: [
+      {
+        headline: "Register Welcomes a New Entry: The Malapert A Vicinity Site",
+        body: "Formerly filed under the generic \"multiple commercial sites\" grouping, this site now has its own Register entry — a first US commercial lunar landing, and, per the Association's own less charitable internal assessment, a textbook § 9.6.3 case. The Board has sent the operator a Welcome and Grandfathered-registration notice. As with every prior Pre-Association correspondence, none has been received in return.",
+      },
+      {
+        headline: "A Reminder on the Correspondence Log",
+        body: 'The Board wishes to remind residents that a non-response from a Pre-Association Entity is not, in itself, cause for concern. It is, per § 9.5.2, treated as constructive delivery — a legal theory the Board acknowledges "has not been tested outside its own meeting minutes."',
       },
     ],
   },
