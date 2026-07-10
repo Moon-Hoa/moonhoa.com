@@ -35,15 +35,19 @@ export default function Home() {
               duly registered member of the Moon Homeowners Association, you
               are now entitled to the full array of rights, privileges, and
               obligations as enumerated in the{" "}
-              <em>Lunar Residential Charter of 2069</em> — a document that
-              spans 4,200 pages and has never been read in its entirety by
-              any living human being.
+              <em>Lunar Residential Charter</em>, Revision 9
+              (LRA-CHARTER-2088-REV.9) — 4,200 pages (authorized), Volume I
+              of XII, ratified in the wake of the Great Regolith Incident of
+              2086 after an emergency Board session lasting eleven months.
             </p>
             <p style={{ marginBottom: 0 }}>
               We are confident your tenure here will be orderly, compliant,
               and of appropriate reflectivity. Should you have questions,
-              please consult Section 7, Subsection 14, Appendix C, Footnote
-              38b. The answer is almost certainly &ldquo;no.&rdquo;
+              consult §1.4 (Definitions) or the Cross-Reference Index at
+              Appendix K. Residents seeking the Association&apos;s general
+              philosophy of governance are directed to §1.3, the Statement
+              of Values, which the Board considers &ldquo;a reasonably
+              honest summary of its priorities.&rdquo;
             </p>
           </FadeIn>
         </section>
@@ -93,10 +97,28 @@ export default function Home() {
         </section>
 
         <section id="charter">
-          <div style={{ width: "100%", maxWidth: 900, margin: "auto" }}>
+          <SectionLabel>Document Reference: LRA-CHARTER-2088-REV.9</SectionLabel>
+          <h2>The Lunar Residential Charter</h2>
+          <Ornament style={{ marginBottom: 32 }}>❧</Ornament>
+
+          <p>
+            Revision 9, ratified following the Great Regolith Incident of
+            2086. 4,200 pages (authorized), Volume I of XII. Residents are
+            encouraged to read this document in full, take reasonable meal
+            breaks, remain hydrated, and maintain a positive altitude about
+            the process.
+          </p>
+          <p>
+            <a href="/lunar-residential-charter-2088-rev9.pdf" download>
+              Download the full Charter (PDF)
+            </a>
+          </p>
+
+          <div style={{ width: "100%", maxWidth: 900, margin: "32px auto 0" }}>
             <iframe
-              src="/lunar-residential-charter-2069.pdf"
-              style={{ width: "100%", height: "80vh", border: "none" }}
+              src="/lunar-residential-charter-2088-rev9.pdf"
+              style={{ width: "100%", height: "80vh", border: "1px solid rgba(var(--gold-rgb),.15)" }}
+              title="Lunar Residential Charter, Revision 9"
             />
           </div>
         </section>
