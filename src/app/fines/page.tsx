@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import SiteShell from "@/components/SiteShell";
 import FineTable from "@/components/FineTable";
+import FineCalculator from "@/components/FineCalculator";
 import { fineSchedule, tribunalCases } from "@/lib/staticPagesContent";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { createSupabasePublicClient } from "@/lib/supabase/public";
 
 export const metadata: Metadata = {
   title: "Schedule of Fines & Tribunal Appeals — Moon Homeowners Association",
 };
+
+// Reference data that rarely changes, but this ensures the live
+// fines_schedule table gets picked up once seeded rather than staying
+// frozen at "not seeded yet" from build time.
+export const revalidate = 45;
 
 export default function FinesPage() {
   return (
@@ -20,6 +28,10 @@ export default function FinesPage() {
       </p>
 
       <FineTable items={fineSchedule} />
+
+      <h3 style={{ marginTop: 40 }}>Fine Calculator</h3>
+      <p>Search the full Master Schedule of Fines directly, rather than the representative selection above.</p>
+      <FineCalculatorSection />
 
       <div className="notice" style={{ marginTop: 32 }}>
         <h3>A Note on the Surface Writing Discrepancy</h3>
@@ -70,4 +82,26 @@ export default function FinesPage() {
       ))}
     </SiteShell>
   );
+}
+
+async function FineCalculatorSection() {
+  if (!isSupabaseConfigured()) {
+    return <p className="lot-picker-note">Calculator isn&apos;t connected yet — Supabase hasn&apos;t been configured.</p>;
+  }
+
+  const supabase = createSupabasePublicClient();
+  const { data: fines, error } = await supabase
+    .from("fines_schedule")
+    .select("id, charter_section, violation, standard_fine_oc, notes")
+    .order("violation", { ascending: true });
+
+  if (error || !fines || fines.length === 0) {
+    return (
+      <p className="lot-picker-note">
+        The full Master Schedule isn&apos;t seeded in this environment yet — see the representative table above instead.
+      </p>
+    );
+  }
+
+  return <FineCalculator fines={fines} />;
 }

@@ -71,6 +71,27 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
 
   const transferCount = transfers?.length ?? 0;
 
+  // good_standing is a Phase 9.5 view — query defensively since it may not
+  // exist yet if that migration hasn't been applied to this environment.
+  let inGoodStanding: boolean | null = null;
+  if (ownerName) {
+    const { data: standing, error } = await supabase
+      .from("good_standing")
+      .select("in_good_standing")
+      .eq("lot_id", lotId)
+      .maybeSingle();
+    if (!error) inGoodStanding = standing?.in_good_standing ?? null;
+  }
+
+  // reserve_components is also Phase 9.5 — same defensive-query pattern.
+  let poolFundedPct: number | null = null;
+  const { data: pool, error: poolError } = await supabase
+    .from("reserve_components")
+    .select("funded_pct")
+    .eq("name", "Zero-Gravity Swimming Pool")
+    .maybeSingle();
+  if (!poolError) poolFundedPct = pool?.funded_pct ?? null;
+
   return (
     <LotLookupShell lotId={lotId}>
       <Panel>
@@ -88,6 +109,14 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
           <PanelRow className="lot-detail-row">
             <span>Registered owner</span>
             <strong>{ownerName}</strong>
+          </PanelRow>
+        )}
+        {inGoodStanding !== null && (
+          <PanelRow className="lot-detail-row">
+            <span>Standing (§2.5)</span>
+            <strong className={inGoodStanding ? "standing-good" : "standing-bad"}>
+              {inGoodStanding ? "Good Standing" : "Not in Good Standing"}
+            </strong>
           </PanelRow>
         )}
         {lot.claimed_at && (
@@ -128,7 +157,9 @@ export default async function LotLookupPage({ params }: { params: Promise<{ lotI
 
       <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
         <ReportButton lotId={lotId} />
-        {ownerName && <TransferForm lotId={lotId} />}
+        {ownerName && (
+          <TransferForm lotId={lotId} inGoodStanding={inGoodStanding} poolFundedPct={poolFundedPct} />
+        )}
       </div>
     </LotLookupShell>
   );
