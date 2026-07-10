@@ -421,8 +421,15 @@ a:hover { text-decoration-color: var(--gold-light); }
 .stage-day { font-size: .82rem; color: var(--text-dim); }
 .stage-action { font-size: .88rem; color: var(--silver); }
 
+.correspondence-row { grid-template-columns: 90px 1fr auto; }
+.correspondence-date { font-family: var(--font-playfair), serif; font-size: .78rem; color: var(--text-dim); white-space: nowrap; }
+.correspondence-recipient { font-size: .88rem; color: var(--cream); }
+.correspondence-subject { font-size: .85rem; color: var(--silver); }
+.correspondence-response { font-family: var(--font-playfair), serif; font-size: .8rem; letter-spacing: .05em; color: var(--gold-dim); text-transform: uppercase; white-space: nowrap; }
+
 @media (max-width: 600px) {
   .committee-row { grid-template-columns: 1fr; text-align: left; }
+  .correspondence-row { grid-template-columns: 1fr; text-align: left; }
   .fine-row { grid-template-columns: 1fr; text-align: left; }
   .fine-amount, .fine-section { text-align: left; }
   .reserve-row { grid-template-columns: 1fr; text-align: left; }

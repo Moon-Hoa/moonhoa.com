@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import SiteShell from "@/components/SiteShell";
 import LegacyStructureGrid from "@/components/LegacyStructureGrid";
-import { legacyStructures } from "@/lib/staticPagesContent";
+import { Panel, PanelRow } from "@/components/Panel";
+import { legacyStructures, correspondenceLog } from "@/lib/staticPagesContent";
 
 export const metadata: Metadata = {
   title: "Legacy Structures Register — Moon Homeowners Association",
@@ -42,6 +43,27 @@ export default function LegacyStructuresPage() {
           fine at Appendix B for Interfering with a Legacy Structure.
         </p>
       </div>
+
+      <h3 style={{ marginTop: 40 }}>Correspondence Log (§9.5, Appendix H)</h3>
+      <p>
+        A running log of correspondence sent to Pre-Association Entities,
+        and the near-uniform absence of response, maintained for
+        transparency and, the Board admits, a certain amount of
+        institutional catharsis. Extended whenever a real mission event
+        happens — see the Real-World Mission Tie-In Playbook.
+      </p>
+      <Panel>
+        {correspondenceLog.map((entry, i) => (
+          <PanelRow className="correspondence-row" key={`${entry.date}-${i}`}>
+            <span className="correspondence-date">{entry.date}</span>
+            <span>
+              <span className="correspondence-recipient">{entry.recipient}</span>
+              <span className="correspondence-subject"> — {entry.subject}</span>
+            </span>
+            <span className="correspondence-response">{entry.response}</span>
+          </PanelRow>
+        ))}
+      </Panel>
     </SiteShell>
   );
 }
