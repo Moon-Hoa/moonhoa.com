@@ -52,8 +52,16 @@ export interface GridCell {
   lonCell: number;
 }
 
+export interface GridBounds {
+  stepDeg: number;
+  latMinDeg: number;
+  latMaxDeg: number;
+  lonMinDeg: number;
+  lonMaxDeg: number;
+}
+
 /** Yields every {latCell, lonCell} pair in the seeded grid, in row-major order. */
-export function* generateGridCells(bounds: typeof LOT_GRID = LOT_GRID): Generator<GridCell> {
+export function* generateGridCells(bounds: GridBounds = LOT_GRID): Generator<GridCell> {
   const latCellMin = degToCell(bounds.latMinDeg, bounds.stepDeg);
   const latCellMax = degToCell(bounds.latMaxDeg, bounds.stepDeg);
   const lonCellMin = degToCell(bounds.lonMinDeg, bounds.stepDeg);
@@ -66,7 +74,7 @@ export function* generateGridCells(bounds: typeof LOT_GRID = LOT_GRID): Generato
   }
 }
 
-export function gridSize(bounds: typeof LOT_GRID = LOT_GRID): number {
+export function gridSize(bounds: GridBounds = LOT_GRID): number {
   const latCells = degToCell(bounds.latMaxDeg, bounds.stepDeg) - degToCell(bounds.latMinDeg, bounds.stepDeg) + 1;
   const lonCells = degToCell(bounds.lonMaxDeg, bounds.stepDeg) - degToCell(bounds.lonMinDeg, bounds.stepDeg) + 1;
   return latCells * lonCells;

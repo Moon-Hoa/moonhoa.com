@@ -191,6 +191,7 @@ export const primaryNavLinks = [
 ];
 
 export const secondaryNavLinks = [
+  { href: "/moon", label: "3D Moon View" },
   { href: "/arc", label: "Committees" },
   { href: "/minutes", label: "Minutes" },
   { href: "/annual-meeting", label: "Annual Meeting" },

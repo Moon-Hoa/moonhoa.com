@@ -14,19 +14,23 @@
     "verify:infra": "node --env-file-if-exists=.env.local --import tsx scripts/verify-infra.ts"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.110.0",
     "bad-words": "^4.0.0",
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.185.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "pg": "^8.22.0",
