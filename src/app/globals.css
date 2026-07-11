@@ -906,3 +906,111 @@ footer {
   .welcome-block { padding: var(--space-6) var(--space-5); }
   .notice { padding: var(--space-5); }
 }
+
+/* 3D Moon view (/moon) */
+.moon-canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 640px;
+  margin-top: var(--space-8);
+  border: 1px solid rgba(var(--gold-rgb),.15);
+  background: radial-gradient(circle at 50% 50%, var(--navy-light) 0%, var(--navy-mid) 70%, var(--navy) 100%);
+  overflow: hidden;
+}
+.moon-canvas-wrap canvas { display: block; touch-action: none; }
+.moon-canvas-skeleton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.moon-canvas-skeleton .lot-picker-note { margin: 0; }
+
+.moon-poi-marker { position: relative; }
+.moon-poi-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--silver);
+  border: 1px solid var(--navy);
+  box-shadow: 0 0 6px rgba(var(--silver-rgb),.6);
+  cursor: pointer;
+  padding: 0;
+}
+.moon-poi-dot.landing-site {
+  background: var(--gold-light);
+  box-shadow: 0 0 6px rgba(var(--gold-rgb),.6);
+}
+.moon-poi-marker.active .moon-poi-dot {
+  box-shadow: 0 0 0 4px rgba(var(--gold-rgb),.3), 0 0 8px rgba(var(--gold-rgb),.8);
+}
+.moon-poi-popover {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 240px;
+  margin-top: 0;
+  background: var(--navy-mid);
+  box-shadow: 0 4px 16px rgba(0,0,0,.5);
+}
+.moon-poi-popover-row {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+}
+.moon-poi-popover-row strong {
+  display: block;
+  font-family: var(--font-playfair), serif;
+  font-size: .85rem;
+  color: var(--gold-light);
+  margin-bottom: var(--space-1);
+}
+.moon-poi-popover-row p {
+  font-size: .8rem;
+  color: var(--silver);
+  margin: 0 0 var(--space-2);
+}
+.moon-poi-popover-row a { font-size: .8rem; }
+
+.moon-region-panel {
+  margin-top: var(--space-5);
+  border: 1px solid rgba(var(--gold-rgb),.15);
+  padding: var(--space-4) var(--space-5);
+}
+.moon-region-panel-heading {
+  font-family: var(--font-playfair), serif;
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin: 0 0 var(--space-3);
+}
+.moon-region-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 2px;
+  background: rgba(var(--gold-rgb),.1);
+  border: 1px solid rgba(var(--gold-rgb),.15);
+  padding: 2px;
+}
+.moon-region-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-playfair), serif;
+  font-size: 8px;
+  color: var(--navy);
+  background: var(--silver-light);
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  text-align: center;
+}
+.moon-region-cell.claimed { background: var(--gold-light); }
+.moon-region-cell:hover { outline: 2px solid var(--gold); outline-offset: -2px; }
+
+@media (max-width: 600px) {
+  .moon-canvas-wrap { aspect-ratio: 1 / 1; }
+}

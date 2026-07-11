@@ -1,19 +1,17 @@
-// Points of interest for the 3D Moon view: real Apollo crewed-landing sites
-// and a handful of well-known named craters. Coordinates are real, public
-// facts (published NASA landing-site coordinates; standard IAU-named
-// craters) — nothing here is invented.
+// Points of interest for the 3D Moon view: real Apollo/other crewed and
+// robotic landing sites (sourced from the canonical Legacy Structures
+// Register — see Appendix C, `staticPagesContent.ts`) plus a handful of
+// well-known named craters. Coordinates are real, public facts; nothing
+// here is invented.
 //
-// This intentionally does NOT source from a shared "legacy structures"
-// dataset, because no such dataset exists on this branch (this page is
-// built directly off `newsite`, independent of later phases). If a richer
-// canonical dataset of lunar surface sites lands on `newsite` later, this
-// list is a natural candidate to be replaced with an import from it rather
-// than kept as a second, hand-maintained copy.
-//
-// Deliberately excluded: any fixed location for the Association's missing
-// "Zero-Gravity Swimming Pool" amenity — its location is canonically
-// unresolved, and inventing coordinates for it would be exactly the kind of
-// fabrication this dataset otherwise avoids.
+// Landing-site entries whose Register coordinates are "Various" or
+// "restricted" (multi-site or undisclosed rows) are filtered out rather
+// than backfilled with a plausible point — inventing one would be the same
+// category of fabrication as inventing a location for the Association's
+// still-missing "Zero-Gravity Swimming Pool" (its location is canonically
+// unresolved and deliberately excluded here too).
+
+import { legacyStructures } from "./staticPagesContent";
 
 export interface MoonPoi {
   id: string;
@@ -24,56 +22,39 @@ export interface MoonPoi {
   description: string;
 }
 
-const landingSites: MoonPoi[] = [
-  {
-    id: "tranquility-base",
-    label: "Tranquility Base",
-    latDeg: 0.67,
-    lonDeg: 23.47,
-    kind: "landing-site",
-    description: "Apollo 11 landing site (1969) — first crewed lunar landing. Registered, grandfathered.",
-  },
-  {
-    id: "ocean-of-storms",
-    label: "Ocean of Storms Site",
-    latDeg: -3.01,
-    lonDeg: -23.42,
-    kind: "landing-site",
-    description: "Apollo 12 landing site (1969), Oceanus Procellarum. Registered, grandfathered.",
-  },
-  {
-    id: "fra-mauro",
-    label: "Fra Mauro Highlands Site",
-    latDeg: -3.65,
-    lonDeg: -17.47,
-    kind: "landing-site",
-    description: "Apollo 14 landing site (1971), Fra Mauro formation. Registered, grandfathered.",
-  },
-  {
-    id: "hadley-rille",
-    label: "Hadley Rille Site",
-    latDeg: 26.13,
-    lonDeg: 3.63,
-    kind: "landing-site",
-    description: "Apollo 15 landing site (1971) — first lunar roving vehicle. Registered, grandfathered.",
-  },
-  {
-    id: "descartes-highlands",
-    label: "Descartes Highlands Site",
-    latDeg: -8.97,
-    lonDeg: 15.5,
-    kind: "landing-site",
-    description: "Apollo 16 landing site (1972), lunar highlands terrain. Registered, grandfathered.",
-  },
-  {
-    id: "taurus-littrow",
-    label: "Taurus-Littrow Site",
-    latDeg: 20.19,
-    lonDeg: 30.77,
-    kind: "landing-site",
-    description: "Apollo 17 landing site (1972) — final crewed lunar landing to date. Registered, grandfathered.",
-  },
-];
+const COORD_RE = /^(-?\d+(?:\.\d+)?)°([NS]),\s*(-?\d+(?:\.\d+)?)°([EW])$/;
+
+function parseCoordinates(coordinates: string): { latDeg: number; lonDeg: number } | null {
+  const match = COORD_RE.exec(coordinates.trim());
+  if (!match) return null;
+  const [, latStr, ns, lonStr, ew] = match;
+  const lat = Number(latStr) * (ns === "S" ? -1 : 1);
+  const lon = Number(lonStr) * (ew === "W" ? -1 : 1);
+  return { latDeg: lat, lonDeg: lon };
+}
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const landingSites: MoonPoi[] = legacyStructures
+  .map((structure) => {
+    const coords = parseCoordinates(structure.coordinates);
+    if (!coords) return null;
+    const poi: MoonPoi = {
+      id: `legacy-${slugify(structure.site)}`,
+      label: structure.site,
+      latDeg: coords.latDeg,
+      lonDeg: coords.lonDeg,
+      kind: "landing-site",
+      description: `${structure.origin} — ${structure.status}`,
+    };
+    return poi;
+  })
+  .filter((poi): poi is MoonPoi => poi !== null);
 
 const craters: MoonPoi[] = [
   {

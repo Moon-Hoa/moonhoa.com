@@ -35,11 +35,15 @@ export default function LotRegionPanel({ center }: { center: { latDeg: number; l
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    function clearPanel() {
+      lastFetchedCenter.current = null;
+      setLots(null);
+    }
+
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     if (!center) {
-      lastFetchedCenter.current = null;
-      setLots(null);
+      clearPanel();
       return;
     }
 

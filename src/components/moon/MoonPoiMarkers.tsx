@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Html } from "@react-three/drei";
-import type { Mesh } from "three";
+import type { Mesh, Object3D } from "three";
 import { latLonToVec3 } from "@/lib/moonGeo";
 import { moonPois, type MoonPoi } from "@/lib/moonPoi";
 import { Panel, PanelRow } from "@/components/Panel";
@@ -25,7 +26,12 @@ export default function MoonPoiMarkers({
           <Html
             key={poi.id}
             position={[pos.x, pos.y, pos.z]}
-            occlude={[occludeRef]}
+            // Mesh extends Object3D; drei's occlude prop wants
+            // RefObject<Object3D> specifically (non-null), which React's
+            // ref-object variance won't infer automatically from a
+            // RefObject<Mesh | null> -- safe cast, drei only reads
+            // .current for occlusion raycasting.
+            occlude={[occludeRef as unknown as React.RefObject<Object3D>]}
             center
             distanceFactor={radius * 3.2}
             zIndexRange={[10, 0]}
@@ -56,6 +62,11 @@ function MarkerButton({ poi, active, onToggle }: { poi: MoonPoi; active: boolean
           <PanelRow className="moon-poi-popover-row">
             <strong>{poi.label}</strong>
             <p>{poi.description}</p>
+            {poi.kind === "landing-site" && (
+              <Link href="/legacy-structures" onClick={(e) => e.stopPropagation()}>
+                Legacy Structures Register →
+              </Link>
+            )}
           </PanelRow>
         </Panel>
       )}
