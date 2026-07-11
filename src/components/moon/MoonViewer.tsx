@@ -7,7 +7,6 @@ import * as THREE from "three";
 import { generateMoonBaseTextures } from "@/lib/moonTexture";
 import { generateDensityOverlayTexture, type DensityCell } from "@/lib/moonDensityTexture";
 import { vec3ToLatLon } from "@/lib/moonGeo";
-import { LOT_GRID } from "@/lib/lots";
 import MoonPoiMarkers from "./MoonPoiMarkers";
 import LotRegionPanel from "./LotRegionPanel";
 
@@ -33,9 +32,9 @@ export default function MoonViewer({ densityCells }: { densityCells: DensityCell
         dpr={[1, 1.75]}
         frameloop="demand"
         // Starts on the +X axis, facing lat 0/lon 0 (moonGeo's
-        // latLonToVec3(0, 0, r) = (r, 0, 0)) -- the center of the seeded
-        // jurisdiction rectangle -- so a visitor's first zoom lands inside
-        // it instead of on the featureless far side of the default +Z view.
+        // latLonToVec3(0, 0, r) = (r, 0, 0)) -- facing Earth -- so a
+        // visitor's first view is the familiar Earth-facing side rather
+        // than the default +Z view.
         camera={{ position: [RADIUS * 3, 0, 0], fov: 45, near: 0.1, far: 100 }}
       >
         <ambientLight intensity={0.35} />
@@ -63,7 +62,7 @@ export default function MoonViewer({ densityCells }: { densityCells: DensityCell
 
 function MoonSurface({ sphereRef }: { sphereRef: React.RefObject<THREE.Mesh | null> }) {
   const { albedoTexture, bumpTexture } = useMemo(() => {
-    const { albedoCanvas, bumpCanvas } = generateMoonBaseTextures(LOT_GRID);
+    const { albedoCanvas, bumpCanvas } = generateMoonBaseTextures();
     const albedo = new THREE.CanvasTexture(albedoCanvas);
     albedo.colorSpace = THREE.SRGBColorSpace;
     const bump = new THREE.CanvasTexture(bumpCanvas);

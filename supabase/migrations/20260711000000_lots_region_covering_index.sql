@@ -1,0 +1,11 @@
+-- Whole-sphere lot expansion (issue #134) widens /api/lots/region's
+-- scanned lat_cell band ~5x (full longitude range instead of near-side
+-- only). The existing unique(lat_cell, lon_cell) btree can't serve that
+-- query as an index-only scan once the select list includes lot_id/
+-- claimed_at (neither column is in the index), so every request would
+-- heap-fetch every row in the scanned lat_cell band. This covering index
+-- lets Postgres answer the region query from the index alone.
+--
+-- Applied before the reseed while `lots` is still ~350k rows, so this
+-- (non-concurrent) index build is instant rather than a lock on 6.49M rows.
+create index lots_lat_lon_covering_idx on lots (lat_cell, lon_cell) include (claimed_at);

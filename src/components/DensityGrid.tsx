@@ -38,30 +38,32 @@ export default async function DensityGrid() {
 
   return (
     <>
-      <div
-        className="density-grid"
-        style={{ gridTemplateColumns: `repeat(${lonBuckets.length}, 1fr)` }}
-      >
-        {latBuckets.flatMap((lat) =>
-          lonBuckets.map((lon) => {
-            const cell = byKey.get(`${lat}:${lon}`);
-            if (!cell) return <div className="density-cell density-cell-empty" key={`${lat}:${lon}`} />;
+      <div className="density-grid-scroll">
+        <div
+          className="density-grid"
+          style={{ gridTemplateColumns: `repeat(${lonBuckets.length}, 28px)` }}
+        >
+          {latBuckets.flatMap((lat) =>
+            lonBuckets.map((lon) => {
+              const cell = byKey.get(`${lat}:${lon}`);
+              if (!cell) return <div className="density-cell density-cell-empty" key={`${lat}:${lon}`} />;
 
-            const fraction = cell.total_lots > 0 ? cell.claimed_lots / cell.total_lots : 0;
-            const pct = Math.round(fraction * 100);
+              const fraction = cell.total_lots > 0 ? cell.claimed_lots / cell.total_lots : 0;
+              const pct = Math.round(fraction * 100);
 
-            return (
-              <div
-                className="density-cell"
-                key={`${lat}:${lon}`}
-                style={{ background: densityColor(fraction) }}
-                title={`${cell.claimed_lots} / ${cell.total_lots} lots claimed (${pct}%)`}
-              >
-                {pct}%
-              </div>
-            );
-          })
-        )}
+              return (
+                <div
+                  className="density-cell"
+                  key={`${lat}:${lon}`}
+                  style={{ background: densityColor(fraction) }}
+                  title={`${cell.claimed_lots} / ${cell.total_lots} lots claimed (${pct}%)`}
+                >
+                  {pct}%
+                </div>
+              );
+            })
+          )}
+        </div>
       </div>
 
       <div className="density-legend">

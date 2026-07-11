@@ -11,7 +11,7 @@ import { cellsForLotId, cellToDeg } from "@/lib/lots";
 
 // Lazily generated + cached per lot on first visit, revalidated at most every
 // 45s — the same ISR cadence as the registry, applied per lot page instead
-// of pre-rendering all ~350k lots at build time.
+// of pre-rendering all ~6.49M lots at build time.
 export const revalidate = 45;
 
 export async function generateMetadata({

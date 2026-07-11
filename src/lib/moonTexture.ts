@@ -65,31 +65,12 @@ function generateFeatures(rng: () => number) {
   return { craters, maria };
 }
 
-/** Lat/lon jurisdiction rectangle -> equirect pixel rect, matching moonGeo's UV convention. */
-function boundsToRect(
-  bounds: { latMinDeg: number; latMaxDeg: number; lonMinDeg: number; lonMaxDeg: number },
-  width: number,
-  height: number
-) {
-  const xMin = ((bounds.lonMinDeg + 180) / 360) * width;
-  const xMax = ((bounds.lonMaxDeg + 180) / 360) * width;
-  // v = (90-lat)/180 is decreasing in lat, so latMax maps to the smaller y.
-  const yMin = ((90 - bounds.latMaxDeg) / 180) * height;
-  const yMax = ((90 - bounds.latMinDeg) / 180) * height;
-  return { x: xMin, y: yMin, width: xMax - xMin, height: yMax - yMin };
-}
-
 export interface MoonBaseTextures {
   albedoCanvas: HTMLCanvasElement;
   bumpCanvas: HTMLCanvasElement;
 }
 
-export function generateMoonBaseTextures(jurisdictionBounds: {
-  latMinDeg: number;
-  latMaxDeg: number;
-  lonMinDeg: number;
-  lonMaxDeg: number;
-}): MoonBaseTextures {
+export function generateMoonBaseTextures(): MoonBaseTextures {
   const rng = mulberry32(SEED);
   const { craters, maria } = generateFeatures(rng);
 
@@ -137,15 +118,6 @@ export function generateMoonBaseTextures(jurisdictionBounds: {
     actx.fillRect(grainRng() * ALBEDO_WIDTH, grainRng() * ALBEDO_HEIGHT, 1, 1);
   }
   actx.globalAlpha = 1;
-
-  // Static jurisdiction boundary — dashed gold rectangle around the seeded lot grid.
-  const rect = boundsToRect(jurisdictionBounds, ALBEDO_WIDTH, ALBEDO_HEIGHT);
-  actx.save();
-  actx.strokeStyle = "#e8c97e";
-  actx.lineWidth = 3;
-  actx.setLineDash([14, 10]);
-  actx.strokeRect(rect.x, rect.y, rect.width, rect.height);
-  actx.restore();
 
   // Bump map: same feature list, lower resolution, greyscale height only.
   const bumpCanvas = document.createElement("canvas");

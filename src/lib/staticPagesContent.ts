@@ -484,7 +484,7 @@ export const legacyStructures: LegacyStructure[] = [
     coordinates: "Various",
     origin: "China (CNSA), 21st c.",
     contents: "Robotic landers and rovers, including the first successful far-side soft landing and two robotic sample-return missions",
-    bufferZone: "200 m each; far-side site outside enforcement range, § 1.2.2",
+    bufferZone: "200 m each, incl. the far-side site (grandfathered per § 1.2.2 despite falling within enforcement range)",
     status: "Registered — Grandfathered",
   },
   {

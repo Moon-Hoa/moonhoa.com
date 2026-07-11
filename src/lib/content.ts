@@ -77,9 +77,9 @@ export const amenities: Amenity[] = [
   {
     icon: "☀️",
     name: "Solar Tanning Deck",
-    desc: "Premium sun exposure facility. Results vary significantly by hemisphere and orbital position. SPF ∞ sunscreen dispensers available on the near side only.",
+    desc: "Premium sun exposure facility. Results vary significantly by position in the ~14-day lunar day/night cycle. SPF ∞ sunscreen dispensers available Association-wide.",
     status: "open",
-    statusLabel: "Operational (Near Side)",
+    statusLabel: "Operational",
   },
   {
     icon: "🧹",
