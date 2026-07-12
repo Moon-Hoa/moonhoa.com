@@ -2,7 +2,7 @@
 // point on the Moon the camera is currently facing.
 //
 // Convention matches the equirectangular texture mapping used by
-// moonTexture.ts/moonDensityTexture.ts: u = (lon+180)/360, v = (90-lat)/180.
+// moonRealTexture.ts/moonTiles.ts/moonDensityTexture.ts: u = (lon+180)/360, v = (90-lat)/180.
 // Any change here must stay in sync with those UV formulas or the texture
 // and the 3D geometry (POI markers, camera->lat/lon) will disagree about
 // where a given lat/lon actually sits on the sphere.

@@ -690,6 +690,7 @@ footer {
 }
 .lot-picker-search:focus { outline: none; border-color: var(--gold); }
 .lot-picker-note { font-size: .8rem; color: var(--text-dim); margin-bottom: 0; }
+.moon-imagery-credit { font-size: .72rem; color: var(--text-dim); opacity: .75; margin-top: var(--space-2); margin-bottom: 0; }
 .lot-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
