@@ -2,12 +2,12 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { LOT_GRID, cellsForLotId, degToCell, gridSize, lotIdForCell } from "./lots";
 
-test("LOT_GRID covers the whole sphere at 0.1° resolution", () => {
+test("LOT_GRID covers the whole sphere at 0.25° resolution", () => {
   assert.equal(LOT_GRID.latMinDeg, -90);
   assert.equal(LOT_GRID.latMaxDeg, 90);
   assert.equal(LOT_GRID.lonMinDeg, -180);
   assert.equal(LOT_GRID.lonMaxDeg, 180);
-  assert.equal(gridSize(LOT_GRID), 6485401);
+  assert.equal(gridSize(LOT_GRID), 1038961);
 });
 
 test("lot IDs round-trip at the extremes of the full ±90/±180 range", () => {

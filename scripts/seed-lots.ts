@@ -94,11 +94,16 @@ async function seedSupabase(url: string, key: string, total: number) {
   // last call left off. Safe across concurrent workers below because JS is
   // single-threaded and nextBatch() runs synchronously to completion (no
   // `await` inside it), so calls from different workers can't interleave.
+  //
+  // Deliberately uses manual .next() calls, not `for...of` -- returning out
+  // of a for-of loop early triggers IteratorClose, which calls .return() on
+  // the generator and permanently finishes it after just one partial drain.
   const cells = generateGridCells(LOT_GRID);
 
   function nextBatch(): LotRow[] | null {
     const batch: LotRow[] = [];
-    for (const { latCell, lonCell } of cells) {
+    for (let result = cells.next(); !result.done; result = cells.next()) {
+      const { latCell, lonCell } = result.value;
       batch.push({ lot_id: lotIdForCell(latCell, lonCell), lat_cell: latCell, lon_cell: lonCell });
       if (batch.length >= BATCH_SIZE) return batch;
     }
