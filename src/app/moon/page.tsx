@@ -20,10 +20,12 @@ export default async function MoonPage() {
   return (
     <SiteShell sectionLabel="§ 7.3 — Interactive Cartography" title="3D Moon View">
       <p>
-        A rotatable, zoomable rendering of the Association&apos;s jurisdiction —
-        drag to orbit, scroll to zoom. Gold markers are historic surface
-        sites and named features; zoom in anywhere on the sphere — near
-        side, far side, or the poles — to browse individual lots.
+        A rotatable, zoomable rendering of the Association&apos;s jurisdiction,
+        built from real lunar surface imagery — drag to orbit, scroll to
+        zoom. Gold markers are historic surface sites and named features;
+        zoom in anywhere on the sphere — near side, far side, or the poles
+        — to browse individual lots, or in over a named landing site for
+        higher-resolution imagery of the actual site.
       </p>
       <MoonViewerClientWrapper
         densityCells={densityCells}
@@ -39,6 +41,11 @@ export default async function MoonPage() {
       />
       <p className="lot-picker-note">
         Prefer a flat view? See the <Link href="/density">Lot Density Map</Link>.
+      </p>
+      <p className="moon-imagery-credit">
+        Surface imagery: NASA / GSFC / Arizona State University (LROC),
+        served via NASA&apos;s Solar System Treks. Elevation shading: NASA
+        LOLA. Public domain U.S. government data.
       </p>
     </SiteShell>
   );

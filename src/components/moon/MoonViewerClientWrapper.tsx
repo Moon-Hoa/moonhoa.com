@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { hasWebGL2 } from "@/lib/webgl";
+import { hasWebGL2, isConstrainedDevice } from "@/lib/webgl";
 import type { DensityCell } from "@/lib/moonDensityTexture";
 
 const MoonViewer = dynamic(() => import("./MoonViewer"), {
@@ -22,17 +22,19 @@ export default function MoonViewerClientWrapper({
   // mount, same pattern this codebase already uses for FadeIn's
   // IntersectionObserver. Avoids a hydration mismatch warning.
   const [supportsWebGL, setSupportsWebGL] = useState<boolean | null>(null);
+  const [constrained, setConstrained] = useState(false);
 
   useEffect(() => {
     function checkSupport() {
       setSupportsWebGL(hasWebGL2());
+      setConstrained(isConstrainedDevice());
     }
     checkSupport();
   }, []);
 
   if (supportsWebGL === null) return <MoonViewerSkeleton />;
   if (!supportsWebGL) return <>{fallback}</>;
-  return <MoonViewer densityCells={densityCells} />;
+  return <MoonViewer densityCells={densityCells} constrained={constrained} />;
 }
 
 function MoonViewerSkeleton() {

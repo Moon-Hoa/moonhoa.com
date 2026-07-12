@@ -1,8 +1,8 @@
 // Draws the same lot_density_grid buckets that power the flat /density
 // heatmap as hard-edged rects on a transparent equirect canvas, for use as
 // a second, unlit sphere layered over the base moon (kept separate from
-// moonTexture.ts so the deterministic mount-once surface art never has to
-// re-bake when async density data arrives or changes).
+// moonRealTexture.ts so periodic density-data refreshes never force a
+// re-fetch/re-composite of the real-imagery surface tiles).
 import { densityColor } from "./densityColor";
 
 const WIDTH = 1024;
