@@ -22,8 +22,8 @@ export default async function MoonPage() {
       <p>
         A rotatable, zoomable rendering of the Association&apos;s jurisdiction —
         drag to orbit, scroll to zoom. Gold markers are historic surface
-        sites and named features; zoom in over the near-side jurisdiction
-        boundary to browse individual lots.
+        sites and named features; zoom in anywhere on the sphere — near
+        side, far side, or the poles — to browse individual lots.
       </p>
       <MoonViewerClientWrapper
         densityCells={densityCells}

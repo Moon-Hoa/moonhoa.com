@@ -1,19 +1,20 @@
 // Selenographic lot grid: real Moon lat/long coordinates divided into fixed
-// 0.1°×0.1° cells (~9 km² near the equator). Every cell is a potential lot;
-// `LOT_GRID` bounds which cells actually get seeded.
+// 0.25°×0.25° cells (~57 km² near the equator). Every cell is a potential
+// lot; `LOT_GRID` bounds which cells actually get seeded.
 //
-// Bounds default to the near-side disk roughly facing Earth (the site's
-// whole joke is being "Earth-visible"), which works out to ~350,000
-// addressable lots — comfortably in the "few hundred thousand" the
-// architecture doc calls for. This is a scarcity/gameplay knob, not a
-// technical constraint — widen or narrow it before the real seed run if
-// lots feel too scarce or too abundant.
+// Whole-sphere coverage (near side, far side, and poles) — every square
+// inch of the Moon is addressable, ~1,038,961 lots total. Step is 0.25°
+// rather than the originally-planned 0.1° (~6.49M lots) because the
+// production Postgres instance's storage plan can't fit the finer grid;
+// see issue #134 for the whole-sphere expansion and the storage incident
+// that led here. Previously scoped to a near-side-only rectangle at 0.1°
+// as a scarcity/gameplay knob before that.
 export const LOT_GRID = {
-  stepDeg: 0.1,
-  latMinDeg: -25,
-  latMaxDeg: 25,
-  lonMinDeg: -35,
-  lonMaxDeg: 35,
+  stepDeg: 0.25,
+  latMinDeg: -90,
+  latMaxDeg: 90,
+  lonMinDeg: -180,
+  lonMaxDeg: 180,
 } as const;
 
 // Offsets covering the full theoretical -90..90 / -180..180 range at 0.1°

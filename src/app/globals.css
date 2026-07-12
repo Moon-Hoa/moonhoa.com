@@ -827,13 +827,18 @@ footer {
 .analytics-bar-fill { background: linear-gradient(90deg, var(--gold-dim), var(--gold)); height: 100%; }
 .analytics-bar-value { font-family: var(--font-playfair), serif; font-size: .8rem; color: var(--gold-light); text-align: right; }
 
+.density-grid-scroll {
+  overflow-x: auto;
+  margin-top: var(--space-8);
+  padding-bottom: var(--space-3);
+}
 .density-grid {
   display: grid;
   gap: 2px;
-  margin-top: var(--space-8);
   background: rgba(var(--gold-rgb),.1);
   border: 1px solid rgba(var(--gold-rgb),.15);
   padding: 2px;
+  width: max-content;
 }
 .density-cell {
   aspect-ratio: 1;
@@ -843,7 +848,6 @@ footer {
   font-family: var(--font-playfair), serif;
   font-size: 9px;
   color: rgba(10,15,30,.6);
-  min-width: 0;
 }
 .density-cell-empty { background: transparent; }
 

@@ -17,7 +17,14 @@ import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { generateGridCells, gridSize, lotIdForCell, LOT_GRID } from "../src/lib/lots";
 
-const BATCH_SIZE = 1000;
+const BATCH_SIZE = 5000;
+// Whole-sphere coverage is ~6.49M rows (~1,298 batches at BATCH_SIZE=5000);
+// fully serial upserts would take 30+ minutes of pure round-trip overhead.
+// Bounded concurrency keeps several batches in flight at once. Each worker
+// still awaits its own upsertBatch() (with its own retry/backoff) before
+// pulling the next batch, so this doesn't change per-batch semantics —
+// it just runs several of them at the same time.
+const CONCURRENCY = 4;
 const dryRun = process.argv.includes("--dry-run");
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -83,24 +90,39 @@ async function seedSupabase(url: string, key: string, total: number) {
     }
   };
 
-  let batch: LotRow[] = [];
+  // Shared generator: each call to nextBatch() resumes it from where the
+  // last call left off. Safe across concurrent workers below because JS is
+  // single-threaded and nextBatch() runs synchronously to completion (no
+  // `await` inside it), so calls from different workers can't interleave.
+  //
+  // Deliberately uses manual .next() calls, not `for...of` -- returning out
+  // of a for-of loop early triggers IteratorClose, which calls .return() on
+  // the generator and permanently finishes it after just one partial drain.
+  const cells = generateGridCells(LOT_GRID);
+
+  function nextBatch(): LotRow[] | null {
+    const batch: LotRow[] = [];
+    for (let result = cells.next(); !result.done; result = cells.next()) {
+      const { latCell, lonCell } = result.value;
+      batch.push({ lot_id: lotIdForCell(latCell, lonCell), lat_cell: latCell, lon_cell: lonCell });
+      if (batch.length >= BATCH_SIZE) return batch;
+    }
+    return batch.length > 0 ? batch : null;
+  }
+
   let inserted = 0;
 
-  for (const { latCell, lonCell } of generateGridCells(LOT_GRID)) {
-    batch.push({ lot_id: lotIdForCell(latCell, lonCell), lat_cell: latCell, lon_cell: lonCell });
-
-    if (batch.length >= BATCH_SIZE) {
+  async function worker() {
+    for (;;) {
+      const batch = nextBatch();
+      if (!batch) return;
       await upsertBatch(batch);
       inserted += batch.length;
       process.stdout.write(`\rSeeded ${inserted.toLocaleString()} / ${total.toLocaleString()}`);
-      batch = [];
     }
   }
 
-  if (batch.length > 0) {
-    await upsertBatch(batch);
-    inserted += batch.length;
-  }
+  await Promise.all(Array.from({ length: CONCURRENCY }, () => worker()));
 
   console.log(`\nDone. Seeded ${inserted.toLocaleString()} lots.`);
 }

@@ -59,9 +59,13 @@ export async function GET(request: NextRequest) {
 
   if (isSupabaseConfigured()) {
     const supabase = createSupabasePublicClient();
+    // lot_id is deliberately not selected: it's not in the covering index
+    // (lat_cell, lon_cell) include (claimed_at), and selecting it would
+    // force a heap fetch per row instead of an index-only scan. It's a
+    // pure function of (lat_cell, lon_cell), so it's cheaper to derive here.
     const { data, error } = await supabase
       .from("lots")
-      .select("lot_id, lat_cell, lon_cell, claimed_at")
+      .select("lat_cell, lon_cell, claimed_at")
       .gte("lat_cell", latCellMin)
       .lte("lat_cell", latCellMax)
       .gte("lon_cell", lonCellMin)
@@ -72,7 +76,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ lots: data, inBounds: true, configured: true });
+    const lots = data.map((row) => ({
+      lot_id: lotIdForCell(row.lat_cell, row.lon_cell),
+      lat_cell: row.lat_cell,
+      lon_cell: row.lon_cell,
+      claimed_at: row.claimed_at,
+    }));
+
+    return NextResponse.json({ lots, inBounds: true, configured: true });
   }
 
   // Local dev fallback — every lot in this bbox slice of the seeded grid is
